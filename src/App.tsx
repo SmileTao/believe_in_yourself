@@ -22,7 +22,6 @@ import Achievements from './modules/achievements/Achievements';
 import Plans from './modules/plans/Plans';
 import Habits from './modules/habits/Habits';
 import Settings from './modules/settings/Settings';
-import Logo from './components/Logo';
 import './App.less';
 
 const NAV = [
@@ -104,7 +103,7 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <Logo size={36} />
+          <span className="brand-mark">士</span>
           <div className="brand-text">
             <strong>{APP_NAME_ZH}</strong>
             <small>{APP_SLOGAN}</small>

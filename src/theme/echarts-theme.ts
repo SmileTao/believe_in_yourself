@@ -2,14 +2,14 @@ import type { EChartsOption } from 'echarts';
 import { variables } from './theme-tokens';
 
 /**
- * 暖色 ECharts 主题（仅浅色）。
+ * 清新绿 ECharts 主题（仅浅色）。
  * 通过 echarts.registerTheme('shibie', theme) 注册后，
  * 在 init(dom, 'shibie') 时使用。
  */
 const { primary, accent, success, warning, text, muted, border, bg, surface } = variables;
 
 export const SHIBIE_ECHARTS_THEME = {
-  color: [accent, primary, success, warning, '#D9B38C', '#E89F7C'],
+  color: [accent, primary, success, warning, '#86EFAC', '#16A34A'],
   backgroundColor: 'transparent',
   textStyle: { color: text, fontFamily: 'inherit' },
   title: {
@@ -22,7 +22,7 @@ export const SHIBIE_ECHARTS_THEME = {
     borderColor: border,
     borderWidth: 1,
     textStyle: { color: text },
-    extraCssText: 'box-shadow: 0 4px 14px rgba(255,107,71,0.12); border-radius:12px;'
+    extraCssText: 'box-shadow: 0 4px 14px rgba(34,197,94,0.12); border-radius:12px;'
   },
   grid: { left: 40, right: 20, top: 30, bottom: 36, containLabel: true },
   categoryAxis: {
@@ -50,7 +50,7 @@ export const SHIBIE_ECHARTS_THEME = {
   }
 } as unknown as EChartsOption;
 
-// 主题色阶（热力图渐变：从浅到深日落色）
+// 主题色阶（热力图渐变：从浅到深清新绿）
 export const HEATMAP_VISUAL_MAP = {
   min: 0,
   max: 4,
@@ -59,7 +59,7 @@ export const HEATMAP_VISUAL_MAP = {
   left: 'center',
   bottom: 0,
   itemHeight: 12,
-  inRange: { color: ['#FCEEE3', '#FFD0BC', '#FF9A56', '#FF6B47'] },
+  inRange: { color: ['#ECFDF5', '#BBF7D0', '#4ADE80', '#22C55E'] },
   textStyle: { color: muted }
 };
 

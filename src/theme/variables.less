@@ -1,26 +1,36 @@
-// 日落渐变主题变量（高饱和暖橙→粉）
-// 背景：暖桃渐变（比卡片深，让白色卡片更突出）
-@bg: #F9E4D6;
-@bg-2: #FCEEE3;       // 渐变第二色（更浅）
-@surface: #FFF6EF;
-@primary: #E8845E;
-@accent: #FF6B47;
-@accent-2: #FF9A56;   // 渐变第二色（金桃）
-@success: #34C77B;
-@warning: #FFB133;
-@text: #4A3528;
-@muted: #9C7E6A;
+// 清新绿色主题变量（活力绿系）
+// 背景：浅绿渐变（比卡片深，让白色卡片更突出）
+@bg: #EDF7F0;
+@bg-2: #F2FAF4;       // 渐变第二色（更浅）
+@surface: #F5FBF7;
+@primary: #4ADE80;
+@accent: #22C55E;
+@accent-2: #4ADE80;   // 渐变第二色（亮绿）
+@success: #16A34A;
+@warning: #FACC15;    // 暖黄（休息态 / 警告）
+@text: #1F3A28;
+@muted: #6B8174;
 
 // 衍生
-@primary-soft: #FAD9C8;
-@accent-soft: #FFD0BC;
-@success-soft: #C5EFDA;
-@border: #F0DAC9;
+@primary-soft: #DCFCE7;
+@accent-soft: #DCFCE7;
+@success-soft: #BBF7D0;
+@border: #D1E8D5;
 @white: #FFFFFF;
 
-// 日落渐变（多处复用）
-@sunset-grad: linear-gradient(135deg, #FF6B47 0%, #FF9A56 50%, #FFB37A 100%);
-@sunset-grad-soft: linear-gradient(135deg, #FFE4D6 0%, #FFF0E5 100%);
+// 清新绿渐变（多处复用）
+@sunset-grad: linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%);
+@sunset-grad-soft: linear-gradient(135deg, #DCFCE7 0%, #ECFDF5 100%);
+
+// 侧边栏（浅绿渐变，非橙色系，文字高对比）
+@sidebar-bg: linear-gradient(180deg, #E0F2E6 0%, #C5E5D0 100%);
+@sidebar-text: #3A4A3E;          // 导航默认文字（深绿灰，高对比）
+@sidebar-text-strong: #2A352C;   // 应用名称
+@sidebar-text-muted: #5F7063;    // 应用描述（可读，不过淡）
+@sidebar-hover-bg: rgba(255, 255, 255, 0.6);
+@sidebar-active-bg: @white;
+@sidebar-active-text: #16A34A;   // 激活态文字（深绿，呼应侧边栏）
+@sidebar-border: #BDD9C4;
 
 // 圆角
 @radius-sm: 8px;
@@ -28,10 +38,10 @@
 @radius-lg: 16px;
 @radius-xl: 24px;
 
-// 阴影（暖色调，更强以区分卡片）
-@shadow-sm: 0 1px 4px rgba(200, 110, 70, 0.08);
-@shadow-md: 0 4px 16px rgba(200, 110, 70, 0.12);
-@shadow-lg: 0 12px 36px rgba(200, 110, 70, 0.16);
+// 阴影（绿色调，更强以区分卡片）
+@shadow-sm: 0 1px 4px rgba(34, 197, 94, 0.08);
+@shadow-md: 0 4px 16px rgba(34, 197, 94, 0.12);
+@shadow-lg: 0 12px 36px rgba(34, 197, 94, 0.16);
 
 // 间距
 @gap-xs: 4px;

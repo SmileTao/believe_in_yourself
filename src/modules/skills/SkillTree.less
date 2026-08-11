@@ -116,13 +116,13 @@
 
   &.doing {
     border-color: @warning;
-    background: #FBF6E8;
-    color: #C9A035;
+    background: #FEFCE8;
+    color: #CA8A04;
   }
 
   &.done {
     border-color: @success;
-    background: #F0F7EE;
+    background: #F0FDF4;
     color: @success;
   }
 
@@ -156,7 +156,7 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(91, 74, 58, 0.25);
+  background: rgba(31, 58, 40, 0.25);
   display: grid;
   place-items: center;
   animation: fade-in 0.2s @ease;
@@ -207,8 +207,8 @@
       font-weight: 600;
 
       &.done { background: @success-soft; color: @success; }
-      &.doing { background: #FBF6E8; color: #C9A035; }
-      &.available { background: #FCE8DF; color: @accent; }
+      &.doing { background: #FEFCE8; color: #CA8A04; }
+      &.available { background: #DCFCE7; color: @accent; }
     }
   }
 
@@ -263,7 +263,7 @@
       color: @muted;
       font-size: @fs-sm;
       transition: all @dur-fast @ease;
-      &:hover { color: @warning; background: #FBF6E8; }
+      &:hover { color: @warning; background: #FEFCE8; }
     }
 
     .action-btn {

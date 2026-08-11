@@ -52,8 +52,8 @@ export default function WpmChart({ data }: WpmChartProps) {
                 type: 'linear',
                 x: 0, y: 0, x2: 0, y2: 1,
                 colorStops: [
-                  { offset: 0, color: 'rgba(232,137,107,0.25)' },
-                  { offset: 1, color: 'rgba(232,137,107,0.02)' }
+                  { offset: 0, color: 'rgba(34,197,94,0.25)' },
+                  { offset: 1, color: 'rgba(34,197,94,0.02)' }
                 ]
               }
             },

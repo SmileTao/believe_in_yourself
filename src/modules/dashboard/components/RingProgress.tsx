@@ -29,8 +29,8 @@ export default function RingProgress({ done, total, size = 160 }: RingProgressPr
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <defs>
           <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF6B47" />
-            <stop offset="100%" stopColor="#FF9A56" />
+            <stop offset="0%" stopColor="#22C55E" />
+            <stop offset="100%" stopColor="#4ADE80" />
           </linearGradient>
         </defs>
         {/* 背景轨道 */}
@@ -39,7 +39,7 @@ export default function RingProgress({ done, total, size = 160 }: RingProgressPr
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#FFF1E8"
+          stroke="#ECFDF5"
           strokeWidth={stroke}
         />
         {/* 进度弧 */}

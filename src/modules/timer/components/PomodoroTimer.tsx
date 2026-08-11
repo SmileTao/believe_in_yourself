@@ -72,13 +72,13 @@ export default function PomodoroTimer({
             <linearGradient id="pomoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               {isBreak ? (
                 <>
-                  <stop offset="0%" stopColor="#34C77B" />
-                  <stop offset="100%" stopColor="#5BDD96" />
+                  <stop offset="0%" stopColor="#FACC15" />
+                  <stop offset="100%" stopColor="#FDE047" />
                 </>
               ) : (
                 <>
-                  <stop offset="0%" stopColor="#FF6B47" />
-                  <stop offset="100%" stopColor="#FF9A56" />
+                  <stop offset="0%" stopColor="#22C55E" />
+                  <stop offset="100%" stopColor="#4ADE80" />
                 </>
               )}
             </linearGradient>
@@ -88,7 +88,7 @@ export default function PomodoroTimer({
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="#FFF1E8"
+            stroke="#ECFDF5"
             strokeWidth={stroke}
           />
           <circle

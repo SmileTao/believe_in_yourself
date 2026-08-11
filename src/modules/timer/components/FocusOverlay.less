@@ -12,10 +12,10 @@
   animation: fade-in 0.4s @ease;
 
   &.focus {
-    background: radial-gradient(ellipse at center, #FFF9F5 0%, #FFE4D6 100%);
+    background: radial-gradient(ellipse at center, #F0FDF4 0%, #BBF7D0 100%);
   }
   &.break {
-    background: radial-gradient(ellipse at center, #F0FBF5 0%, #D6F5E3 100%);
+    background: radial-gradient(ellipse at center, #FEFCE8 0%, #FEF9C3 100%);
   }
 
   .exit-btn {
@@ -76,13 +76,13 @@
   }
 
   .break .overlay-mode {
-    color: @success;
+    color: @warning;
   }
 
   .overlay-progress-bar {
     width: min(500px, 60vw);
     height: 4px;
-    background: rgba(91, 74, 58, 0.1);
+    background: rgba(34, 197, 94, 0.1);
     border-radius: 999px;
     overflow: hidden;
 
@@ -95,7 +95,7 @@
   }
 
   .break .bar-fill {
-    background: @success;
+    background: @warning;
   }
 
   .overlay-ctrl {
@@ -108,7 +108,7 @@
     color: @white;
     font-size: @fs-md;
     font-weight: 600;
-    box-shadow: 0 4px 20px rgba(232, 137, 107, 0.3);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
     transition: all @dur-fast @ease;
 
     &:hover {
@@ -117,8 +117,8 @@
   }
 
   .break .overlay-ctrl {
-    background: @success;
-    box-shadow: 0 4px 20px rgba(168, 201, 163, 0.3);
+    background: @warning;
+    box-shadow: 0 4px 20px rgba(250, 204, 21, 0.3);
   }
 
   .overlay-hint {
