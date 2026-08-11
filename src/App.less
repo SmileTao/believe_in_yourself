@@ -4,14 +4,14 @@
   display: flex;
   height: 100vh;
   width: 100vw;
-  background: @bg;
+  background: linear-gradient(160deg, @bg-2 0%, @bg 60%, darken(@bg, 3%) 100%);
 }
 
 /* —— 侧边栏 —— */
 .sidebar {
   width: 224px;
   flex-shrink: 0;
-  background: @surface;
+  background: linear-gradient(180deg, darken(@bg, 5%), darken(@bg, 10%));
   border-right: 1px solid @border;
   display: flex;
   flex-direction: column;
@@ -25,29 +25,17 @@
   gap: @gap-sm;
   padding: @gap-sm @gap-sm @gap-md;
 
-  .brand-mark {
-    width: 40px;
-    height: 40px;
-    border-radius: @radius-md;
-    background: linear-gradient(135deg, @accent, @primary);
-    color: @white;
-    display: grid;
-    place-items: center;
-    font-size: 22px;
-    font-weight: 700;
-    box-shadow: @shadow-sm;
-  }
   .brand-text {
     display: flex;
     flex-direction: column;
     line-height: 1.25;
     strong {
       font-size: @fs-lg;
-      color: @text;
+      color: @white;
     }
     small {
       font-size: @fs-xs;
-      color: @muted;
+      color: fade(@white, 65%);
     }
   }
 }
@@ -65,13 +53,13 @@
     gap: @gap-sm;
     padding: 9px 12px;
     border-radius: @radius-md;
-    color: @muted;
+    color: fade(@white, 60%);
     font-size: @fs-md;
     transition: all @dur-fast @ease;
 
     &:hover {
-      background: @white;
-      color: @text;
+      background: fade(@white, 15%);
+      color: @white;
     }
     &.active {
       background: @white;
@@ -88,16 +76,13 @@
   align-items: center;
   gap: @gap-xs;
   font-size: @fs-xs;
+  color: fade(@white, 50%);
   padding: @gap-sm;
   border-radius: @radius-md;
   -webkit-app-region: no-drag;
 
-  &.ok {
-    color: @success;
-  }
-  &.err {
-    color: @warning;
-  }
+  &.ok { color: #5BDD96; }
+  &.err { color: @warning; }
 }
 
 /* —— 主内容 —— */
@@ -145,4 +130,13 @@
     color: @text;
     margin-bottom: @gap-sm;
   }
+}
+
+/* 全局卡片基础样式 */
+.card {
+  background: @white;
+  border: 1px solid @border;
+  border-radius: @radius-lg;
+  padding: @gap-md;
+  box-shadow: @shadow-sm;
 }

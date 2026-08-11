@@ -30,7 +30,7 @@ export default function HeatmapChart({ data, year }: HeatmapChartProps) {
           left: 'center',
           bottom: 0,
           itemHeight: 120,
-          inRange: { color: ['#F4ECE2', '#E8C9B0', variables.accent, '#D9694B'] },
+          inRange: { color: ['#FCEEE3', '#FFD0BC', '#FF9A56', '#FF6B47'] },
           textStyle: { color: variables.muted, fontSize: 11 }
         },
         calendar: {
@@ -42,7 +42,7 @@ export default function HeatmapChart({ data, year }: HeatmapChartProps) {
           itemStyle: {
             borderWidth: 2,
             borderColor: variables.bg,
-            color: '#F4ECE2'
+            color: '#FCEEE3'
           },
           yearLabel: { show: false },
           dayLabel: { color: variables.muted, fontSize: 11 },

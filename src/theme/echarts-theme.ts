@@ -22,7 +22,7 @@ export const SHIBIE_ECHARTS_THEME = {
     borderColor: border,
     borderWidth: 1,
     textStyle: { color: text },
-    extraCssText: 'box-shadow: 0 4px 14px rgba(91,74,58,0.12); border-radius:12px;'
+    extraCssText: 'box-shadow: 0 4px 14px rgba(255,107,71,0.12); border-radius:12px;'
   },
   grid: { left: 40, right: 20, top: 30, bottom: 36, containLabel: true },
   categoryAxis: {
@@ -50,7 +50,7 @@ export const SHIBIE_ECHARTS_THEME = {
   }
 } as unknown as EChartsOption;
 
-// 主题色阶（热力图渐变：从浅到深暖色）
+// 主题色阶（热力图渐变：从浅到深日落色）
 export const HEATMAP_VISUAL_MAP = {
   min: 0,
   max: 4,
@@ -59,7 +59,7 @@ export const HEATMAP_VISUAL_MAP = {
   left: 'center',
   bottom: 0,
   itemHeight: 12,
-  inRange: { color: ['#F4ECE2', '#E8C9B0', accent, '#D9694B'] },
+  inRange: { color: ['#FCEEE3', '#FFD0BC', '#FF9A56', '#FF6B47'] },
   textStyle: { color: muted }
 };
 

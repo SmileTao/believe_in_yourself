@@ -3,15 +3,17 @@
  * 与 variables.less 保持同步（唯一真源在 variables.less，此处为运行时镜像）。
  */
 export const variables = {
-  bg: '#FBF7F2',
-  surface: '#F4ECE2',
-  primary: '#C9A88A',
-  accent: '#E8896B',
-  success: '#A8C9A3',
-  warning: '#E8C275',
-  text: '#5B4A3A',
-  muted: '#A89B8C',
-  border: '#E7DDD0',
+  bg: '#F9E4D6',
+  bg2: '#FCEEE3',
+  surface: '#FFF6EF',
+  primary: '#E8845E',
+  accent: '#FF6B47',
+  accent2: '#FF9A56',
+  success: '#34C77B',
+  warning: '#FFB133',
+  text: '#4A3528',
+  muted: '#9C7E6A',
+  border: '#F0DAC9',
   white: '#FFFFFF'
 };
 

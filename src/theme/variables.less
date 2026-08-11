@@ -1,19 +1,26 @@
-// 温暖治愈系主题变量（仅浅色主题）
-@bg: #FBF7F2;
-@surface: #F4ECE2;
-@primary: #C9A88A;
-@accent: #E8896B;
-@success: #A8C9A3;
-@warning: #E8C275;
-@text: #5B4A3A;
-@muted: #A89B8C;
+// 日落渐变主题变量（高饱和暖橙→粉）
+// 背景：暖桃渐变（比卡片深，让白色卡片更突出）
+@bg: #F9E4D6;
+@bg-2: #FCEEE3;       // 渐变第二色（更浅）
+@surface: #FFF6EF;
+@primary: #E8845E;
+@accent: #FF6B47;
+@accent-2: #FF9A56;   // 渐变第二色（金桃）
+@success: #34C77B;
+@warning: #FFB133;
+@text: #4A3528;
+@muted: #9C7E6A;
 
 // 衍生
-@primary-soft: #E3D2BF;
-@accent-soft: #F6C9B8;
-@success-soft: #D6E7D2;
-@border: #E7DDD0;
+@primary-soft: #FAD9C8;
+@accent-soft: #FFD0BC;
+@success-soft: #C5EFDA;
+@border: #F0DAC9;
 @white: #FFFFFF;
+
+// 日落渐变（多处复用）
+@sunset-grad: linear-gradient(135deg, #FF6B47 0%, #FF9A56 50%, #FFB37A 100%);
+@sunset-grad-soft: linear-gradient(135deg, #FFE4D6 0%, #FFF0E5 100%);
 
 // 圆角
 @radius-sm: 8px;
@@ -21,10 +28,10 @@
 @radius-lg: 16px;
 @radius-xl: 24px;
 
-// 阴影（柔和）
-@shadow-sm: 0 1px 3px rgba(91, 74, 58, 0.06);
-@shadow-md: 0 4px 14px rgba(91, 74, 58, 0.08);
-@shadow-lg: 0 10px 30px rgba(91, 74, 58, 0.12);
+// 阴影（暖色调，更强以区分卡片）
+@shadow-sm: 0 1px 4px rgba(200, 110, 70, 0.08);
+@shadow-md: 0 4px 16px rgba(200, 110, 70, 0.12);
+@shadow-lg: 0 12px 36px rgba(200, 110, 70, 0.16);
 
 // 间距
 @gap-xs: 4px;
