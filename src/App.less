@@ -1,0 +1,148 @@
+@import './theme/variables.less';
+
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: @bg;
+}
+
+/* —— 侧边栏 —— */
+.sidebar {
+  width: 224px;
+  flex-shrink: 0;
+  background: @surface;
+  border-right: 1px solid @border;
+  display: flex;
+  flex-direction: column;
+  padding: @gap-lg @gap-md;
+  -webkit-app-region: drag;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: @gap-sm;
+  padding: @gap-sm @gap-sm @gap-md;
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: @radius-md;
+    background: linear-gradient(135deg, @accent, @primary);
+    color: @white;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    font-weight: 700;
+    box-shadow: @shadow-sm;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    strong {
+      font-size: @fs-lg;
+      color: @text;
+    }
+    small {
+      font-size: @fs-xs;
+      color: @muted;
+    }
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: @gap-xs;
+  margin-top: @gap-md;
+  -webkit-app-region: no-drag;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+    padding: 9px 12px;
+    border-radius: @radius-md;
+    color: @muted;
+    font-size: @fs-md;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      background: @white;
+      color: @text;
+    }
+    &.active {
+      background: @white;
+      color: @accent;
+      font-weight: 600;
+      box-shadow: @shadow-sm;
+    }
+  }
+}
+
+.conn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: @gap-xs;
+  font-size: @fs-xs;
+  padding: @gap-sm;
+  border-radius: @radius-md;
+  -webkit-app-region: no-drag;
+
+  &.ok {
+    color: @success;
+  }
+  &.err {
+    color: @warning;
+  }
+}
+
+/* —— 主内容 —— */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: @gap-xl;
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: @gap-md;
+  .date {
+    color: @muted;
+    font-size: @fs-sm;
+  }
+}
+
+.slogan-banner {
+  text-align: center;
+  margin-bottom: @gap-lg;
+  background: linear-gradient(135deg, @white, @surface);
+  border: 1px solid @border;
+
+  h1 {
+    font-size: @fs-xxl;
+    font-weight: 700;
+    color: @text;
+    letter-spacing: 2px;
+  }
+  p {
+    margin-top: @gap-xs;
+    font-size: @fs-md;
+  }
+}
+
+.placeholder-module {
+  max-width: 480px;
+  margin: @gap-xl auto;
+  text-align: center;
+
+  h2 {
+    font-size: @fs-xl;
+    color: @text;
+    margin-bottom: @gap-sm;
+  }
+}

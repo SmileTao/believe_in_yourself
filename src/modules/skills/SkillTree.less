@@ -1,0 +1,350 @@
+@import '../../theme/variables.less';
+
+.skill-tree {
+  .tree-progress {
+    margin-bottom: @gap-lg;
+
+    .progress-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: @gap-sm;
+
+      h3 {
+        font-size: @fs-md;
+        color: @text;
+      }
+      .progress-num {
+        font-size: @fs-sm;
+        color: @accent;
+        font-weight: 600;
+      }
+    }
+
+    .progress-track {
+      height: 10px;
+      background: @surface;
+      border-radius: 999px;
+      overflow: hidden;
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, @accent, @warning);
+        border-radius: 999px;
+        transition: width 0.8s @ease;
+      }
+    }
+  }
+}
+
+.tree-layers {
+  display: flex;
+  flex-direction: column;
+  gap: @gap-md;
+}
+
+.tree-layer {
+  display: flex;
+  align-items: flex-start;
+  gap: @gap-md;
+
+  .layer-label {
+    width: 140px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 8px;
+
+    .layer-badge {
+      font-size: @fs-xs;
+      font-weight: 700;
+      color: @accent;
+      letter-spacing: 1px;
+    }
+    .layer-name {
+      font-size: @fs-md;
+      font-weight: 600;
+      color: @text;
+    }
+    .layer-count {
+      font-size: @fs-xs;
+      color: @muted;
+    }
+  }
+
+  .layer-nodes {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: @gap-sm;
+    padding: @gap-sm 0;
+    border-left: 2px dashed @border;
+    padding-left: @gap-md;
+  }
+}
+
+.skill-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: @radius-md;
+  border: 1.5px solid transparent;
+  background: @white;
+  box-shadow: @shadow-sm;
+  min-width: 90px;
+  transition: all @dur-fast @ease;
+
+  &:hover:not(.locked) {
+    transform: translateY(-2px);
+    box-shadow: @shadow-md;
+  }
+
+  &.locked {
+    opacity: 0.5;
+    background: @bg;
+    cursor: not-allowed;
+    color: @muted;
+  }
+
+  &.available {
+    border-color: @accent;
+    color: @accent;
+  }
+
+  &.doing {
+    border-color: @warning;
+    background: #FBF6E8;
+    color: #C9A035;
+  }
+
+  &.done {
+    border-color: @success;
+    background: #F0F7EE;
+    color: @success;
+  }
+
+  .node-name {
+    font-size: @fs-xs;
+    font-weight: 500;
+    color: @text;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .node-hours {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    color: @muted;
+  }
+
+  .spin {
+    animation: spin 1.5s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 节点详情弹窗 */
+.node-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(91, 74, 58, 0.25);
+  display: grid;
+  place-items: center;
+  animation: fade-in 0.2s @ease;
+}
+
+.node-detail {
+  width: min(440px, 90vw);
+  padding: @gap-xl;
+  position: relative;
+  animation: pop-in 0.25s @ease;
+
+  .close-btn {
+    position: absolute;
+    top: @gap-md;
+    right: @gap-md;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: @muted;
+    display: grid;
+    place-items: center;
+    &:hover {
+      background: @surface;
+    }
+  }
+
+  .detail-head {
+    display: flex;
+    flex-direction: column;
+    gap: @gap-xs;
+    margin-bottom: @gap-md;
+
+    .detail-code {
+      font-size: @fs-xs;
+      font-weight: 700;
+      color: @accent;
+      letter-spacing: 1px;
+    }
+    h3 {
+      font-size: @fs-xl;
+      color: @text;
+    }
+    .detail-status {
+      align-self: flex-start;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: @fs-xs;
+      font-weight: 600;
+
+      &.done { background: @success-soft; color: @success; }
+      &.doing { background: #FBF6E8; color: #C9A035; }
+      &.available { background: #FCE8DF; color: @accent; }
+    }
+  }
+
+  .detail-desc {
+    font-size: @fs-sm;
+    color: @muted;
+    line-height: 1.7;
+    margin-bottom: @gap-md;
+  }
+
+  .detail-section {
+    margin-bottom: @gap-md;
+    small { display: block; margin-bottom: 4px; }
+    p { font-size: @fs-sm; color: @text; }
+  }
+
+  .detail-meta {
+    display: flex;
+    gap: @gap-sm;
+    flex-wrap: wrap;
+    margin-bottom: @gap-lg;
+
+    .meta-chip {
+      padding: 3px 10px;
+      border-radius: @radius-sm;
+      background: @surface;
+      font-size: @fs-xs;
+      color: @text;
+    }
+    .meta-link {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 10px;
+      border-radius: @radius-sm;
+      font-size: @fs-xs;
+      color: @accent;
+    }
+  }
+
+  .detail-actions {
+    display: flex;
+    gap: @gap-sm;
+
+    .revert-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 16px;
+      border-radius: @radius-md;
+      background: @surface;
+      color: @muted;
+      font-size: @fs-sm;
+      transition: all @dur-fast @ease;
+      &:hover { color: @warning; background: #FBF6E8; }
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: @radius-md;
+      background: @accent;
+      color: @white;
+      font-size: @fs-sm;
+      font-weight: 600;
+      transition: all @dur-fast @ease;
+      &:hover { opacity: 0.9; }
+    }
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 感悟弹窗 */
+.reflect-dialog {
+  width: min(500px, 90vw);
+
+  .reflect-head {
+    margin-bottom: @gap-md;
+
+    .reflect-hint {
+      font-size: @fs-sm;
+      line-height: 1.7;
+      margin-top: @gap-xs;
+    }
+  }
+
+  .reflect-input {
+    width: 100%;
+    padding: @gap-md;
+    border: 1.5px solid @border;
+    border-radius: @radius-md;
+    background: @bg;
+    font-size: @fs-sm;
+    color: @text;
+    outline: none;
+    resize: none;
+    line-height: 1.7;
+    transition: border-color @dur-fast @ease;
+
+    &:focus {
+      border-color: @accent;
+      background: @white;
+    }
+  }
+
+  .reflect-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: @gap-md;
+
+    .char-count {
+      font-size: @fs-xs;
+    }
+
+    .reflect-actions {
+      display: flex;
+      gap: @gap-sm;
+
+      .reflect-cancel-btn {
+        padding: 8px 16px;
+        border-radius: @radius-md;
+        background: @surface;
+        color: @muted;
+        font-size: @fs-sm;
+        transition: all @dur-fast @ease;
+        &:hover { color: @text; }
+      }
+    }
+  }
+}

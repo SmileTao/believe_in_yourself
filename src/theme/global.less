@@ -1,0 +1,104 @@
+@import './variables.less';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: @bg;
+  color: @text;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  font-size: @fs-md;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  color: @accent;
+  text-decoration: none;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  color: @text;
+}
+
+::selection {
+  background: @accent-soft;
+}
+
+// 滚动条
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: @border;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: @muted;
+}
+
+// —— 通用工具类 ——
+.card {
+  background: @white;
+  border-radius: @radius-lg;
+  box-shadow: @shadow-sm;
+  padding: @gap-lg;
+}
+
+.surface-card {
+  background: @surface;
+  border-radius: @radius-lg;
+  padding: @gap-lg;
+}
+
+.muted {
+  color: @muted;
+}
+
+// hover 轻微抬起
+.lift {
+  transition: transform @dur @ease, box-shadow @dur @ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: @shadow-md;
+  }
+}
+
+// 暖色脉冲（打卡）
+@keyframes pulse-warm {
+  0% {
+    box-shadow: 0 0 0 0 rgba(232, 137, 107, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(232, 137, 107, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 137, 107, 0);
+  }
+}
+.pulse-warm {
+  animation: pulse-warm 0.7s @ease;
+}

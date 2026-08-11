@@ -1,0 +1,167 @@
+@import '../../../theme/variables.less';
+
+.quick-checkin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: @gap-md;
+}
+
+.plan-card {
+  background: @white;
+  border-radius: @radius-lg;
+  padding: @gap-md;
+  box-shadow: @shadow-sm;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: @gap-sm;
+  position: relative;
+
+  &.done {
+    background: linear-gradient(135deg, @white, #F0F7EE);
+    border-color: @success;
+  }
+
+  .plan-head {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+  }
+
+  .plan-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: @radius-md;
+    background: @primary-soft;
+    color: @primary;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  &.done .plan-icon {
+    background: @success-soft;
+    color: @success;
+  }
+
+  .plan-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    strong {
+      font-size: @fs-md;
+      color: @text;
+    }
+    small {
+      font-size: @fs-xs;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .plan-stats {
+    display: flex;
+    gap: @gap-xs;
+    flex-wrap: wrap;
+  }
+
+  .stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: @fs-xs;
+
+    &.streak {
+      background: #FCE8DF;
+      color: @accent;
+    }
+    &.metric {
+      background: @warning;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  .check-btn {
+    margin-top: auto;
+    padding: 9px;
+    border-radius: @radius-md;
+    background: @surface;
+    color: @text;
+    font-size: @fs-sm;
+    font-weight: 600;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      background: @accent;
+      color: @white;
+    }
+
+    &.checked {
+      background: @success;
+      color: @white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: @gap-xs;
+    }
+  }
+
+  .undo-btn {
+    position: absolute;
+    top: @gap-md;
+    right: @gap-md;
+    font-size: @fs-xs;
+    color: @muted;
+    text-decoration: underline;
+    opacity: 0;
+    transition: opacity @dur-fast @ease;
+  }
+
+  &:hover .undo-btn {
+    opacity: 1;
+  }
+
+  .num-input {
+    display: flex;
+    gap: @gap-xs;
+    align-items: center;
+    margin-top: auto;
+
+    input {
+      flex: 1;
+      padding: 7px 10px;
+      border: 1.5px solid @border;
+      border-radius: @radius-sm;
+      font-size: @fs-sm;
+      outline: none;
+      background: @bg;
+      &:focus {
+        border-color: @accent;
+      }
+    }
+
+    .confirm-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: @radius-sm;
+      background: @success;
+      color: @white;
+      display: grid;
+      place-items: center;
+    }
+    .cancel-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: @radius-sm;
+      background: @surface;
+      color: @muted;
+      display: grid;
+      place-items: center;
+    }
+  }
+}

@@ -1,0 +1,334 @@
+@import '../../theme/variables.less';
+
+.plans-page {
+  .page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: @gap-lg;
+
+    h2 {
+      font-size: @fs-xl;
+      color: @text;
+    }
+
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 18px;
+      border-radius: @radius-md;
+      background: @accent;
+      color: @white;
+      font-size: @fs-sm;
+      font-weight: 600;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: @shadow-sm;
+      }
+    }
+  }
+
+  .plan-list {
+    display: flex;
+    flex-direction: column;
+    gap: @gap-sm;
+  }
+
+  .plan-row {
+    display: flex;
+    align-items: center;
+    gap: @gap-md;
+    padding: @gap-md;
+
+    .drag-handle {
+      color: @border;
+      cursor: grab;
+    }
+
+    .plan-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: @radius-md;
+      background: @primary-soft;
+      color: @primary;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .plan-detail {
+      flex: 1;
+      min-width: 0;
+
+      .plan-name {
+        font-size: @fs-md;
+        font-weight: 600;
+        color: @text;
+        margin-bottom: 3px;
+      }
+
+      .plan-meta {
+        display: flex;
+        align-items: center;
+        gap: @gap-sm;
+        margin-bottom: 2px;
+
+        .meta-tag {
+          padding: 1px 8px;
+          border-radius: @radius-sm;
+          background: @surface;
+          font-size: @fs-xs;
+          color: @muted;
+        }
+        .meta-goal {
+          font-size: @fs-xs;
+        }
+      }
+
+      .plan-min {
+        font-size: @fs-xs;
+      }
+    }
+
+    .plan-actions {
+      display: flex;
+      gap: @gap-xs;
+      opacity: 0;
+      transition: opacity @dur-fast @ease;
+    }
+
+    &:hover .plan-actions {
+      opacity: 1;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: @radius-sm;
+      display: grid;
+      place-items: center;
+      color: @muted;
+      transition: all @dur-fast @ease;
+
+      &.edit:hover { color: @accent; background: #FCE8DF; }
+      &.del:hover { color: #D9694B; background: #FCE8DF; }
+    }
+  }
+}
+
+/* 表单弹窗 */
+.plan-form-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(91, 74, 58, 0.25);
+  display: grid;
+  place-items: center;
+  animation: fade-in 0.2s @ease;
+}
+
+.plan-form {
+  width: min(480px, 90vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: pop-in 0.25s @ease;
+
+  .form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: @gap-lg;
+
+    h3 {
+      font-size: @fs-lg;
+      color: @text;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: @muted;
+      display: grid;
+      place-items: center;
+      &:hover { background: @surface; }
+    }
+  }
+
+  .form-body {
+    display: flex;
+    flex-direction: column;
+    gap: @gap-md;
+    margin-bottom: @gap-lg;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: @fs-sm;
+      color: @text;
+      font-weight: 600;
+    }
+
+    input[type='text'] {
+      padding: 9px 12px;
+      border: 1.5px solid @border;
+      border-radius: @radius-md;
+      background: @bg;
+      font-size: @fs-sm;
+      outline: none;
+      transition: border-color @dur-fast @ease;
+
+      &:focus {
+        border-color: @accent;
+        background: @white;
+      }
+    }
+
+    small {
+      font-size: @fs-xs;
+    }
+  }
+
+  .icon-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: @gap-xs;
+
+    .icon-opt {
+      width: 38px;
+      height: 38px;
+      border-radius: @radius-sm;
+      border: 2px solid transparent;
+      background: @bg;
+      color: @muted;
+      display: grid;
+      place-items: center;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        background: @surface;
+        color: @text;
+      }
+      &.selected {
+        border-color: @accent;
+        background: #FCE8DF;
+        color: @accent;
+      }
+    }
+  }
+
+  .type-tabs {
+    display: flex;
+    gap: @gap-xs;
+    background: @surface;
+    padding: 4px;
+    border-radius: @radius-md;
+
+    .type-tab {
+      flex: 1;
+      padding: 7px;
+      border-radius: @radius-sm;
+      font-size: @fs-sm;
+      color: @muted;
+      transition: all @dur-fast @ease;
+
+      &.active {
+        background: @white;
+        color: @text;
+        font-weight: 600;
+        box-shadow: @shadow-sm;
+      }
+    }
+  }
+
+  .metric-input {
+    margin-top: 6px;
+  }
+
+  .evidence-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+
+    .evidence-toggle {
+      width: 46px;
+      height: 26px;
+      border-radius: 999px;
+      background: @border;
+      position: relative;
+      transition: background @dur-fast @ease;
+      flex-shrink: 0;
+
+      &.on {
+        background: @success;
+      }
+
+      .toggle-knob {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: @white;
+        box-shadow: @shadow-sm;
+        transition: transform @dur-fast @ease;
+      }
+
+      &.on .toggle-knob {
+        transform: translateX(20px);
+      }
+    }
+
+    small {
+      font-size: @fs-xs;
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: @gap-sm;
+
+    .cancel-btn {
+      padding: 8px 18px;
+      border-radius: @radius-md;
+      background: @surface;
+      color: @muted;
+      font-size: @fs-sm;
+    }
+
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 22px;
+      border-radius: @radius-md;
+      background: @accent;
+      color: @white;
+      font-size: @fs-sm;
+      font-weight: 600;
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

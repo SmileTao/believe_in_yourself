@@ -1,0 +1,58 @@
+@import '../../theme/variables.less';
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: @gap-lg;
+  margin-bottom: @gap-xl;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ring-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .panel-title {
+    font-size: @fs-md;
+    color: @text;
+    margin-bottom: @gap-md;
+  }
+
+  .ring-wrap {
+    margin: @gap-sm 0;
+  }
+
+  .ring-tip {
+    font-size: @fs-sm;
+    margin-top: @gap-sm;
+  }
+}
+
+.checkin-section {
+  .section-title {
+    font-size: @fs-lg;
+    color: @text;
+    margin-bottom: @gap-md;
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: @accent;
+      border-radius: 2px;
+    }
+  }
+}

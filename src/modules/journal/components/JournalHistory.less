@@ -1,0 +1,74 @@
+@import '../../../theme/variables.less';
+
+.journal-history {
+  h3 {
+    font-size: @fs-lg;
+    color: @text;
+    margin-bottom: @gap-md;
+  }
+
+  .empty {
+    text-align: center;
+    padding: @gap-lg;
+    font-size: @fs-sm;
+  }
+
+  .history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: @gap-sm;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .history-item {
+    padding: @gap-sm @gap-md;
+    border-radius: @radius-md;
+    background: @bg;
+    border-left: 3px solid @accent;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      background: @surface;
+      transform: translateX(2px);
+    }
+
+    .item-date {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+
+      .date {
+        font-size: @fs-xs;
+        font-weight: 600;
+        color: @text;
+      }
+      .mood {
+        font-size: 16px;
+      }
+    }
+
+    .item-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .line {
+        font-size: @fs-sm;
+        line-height: 1.6;
+      }
+      .s1 {
+        color: @text;
+      }
+      .s2 {
+        color: @muted;
+      }
+      .s3 {
+        color: @accent;
+      }
+    }
+  }
+}

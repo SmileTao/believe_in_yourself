@@ -1,0 +1,39 @@
+@import '../../../theme/variables.less';
+
+.wpm-chart {
+  margin-bottom: @gap-lg;
+
+  .wpm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: @gap-sm;
+  }
+
+  .chart-title {
+    font-size: @fs-md;
+    color: @text;
+  }
+
+  .best-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #FBF1D9;
+    color: #C9A035;
+    font-size: @fs-sm;
+    font-weight: 600;
+  }
+
+  .chart-box {
+    width: 100%;
+  }
+
+  .empty-tip {
+    text-align: center;
+    padding: @gap-xl;
+    font-size: @fs-sm;
+  }
+}

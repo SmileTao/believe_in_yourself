@@ -1,0 +1,28 @@
+@import '../../theme/variables.less';
+
+.skills-page {
+  .page-head {
+    display: flex;
+    align-items: center;
+    gap: @gap-md;
+    margin-bottom: @gap-lg;
+
+    .head-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: @radius-md;
+      background: linear-gradient(135deg, @accent, @primary);
+      color: @white;
+      display: grid;
+      place-items: center;
+    }
+
+    h2 {
+      font-size: @fs-xl;
+      color: @text;
+    }
+    p {
+      font-size: @fs-sm;
+    }
+  }
+}

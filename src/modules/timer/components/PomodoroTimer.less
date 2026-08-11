@@ -1,0 +1,153 @@
+@import '../../../theme/variables.less';
+
+.pomodoro-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: @gap-lg;
+  padding: @gap-xl @gap-lg;
+
+  &.focus-mode {
+    --mode-color: @accent;
+  }
+  &.break-mode {
+    --mode-color: @success;
+  }
+
+  .mode-tabs {
+    display: flex;
+    gap: @gap-xs;
+    background: @surface;
+    padding: 4px;
+    border-radius: @radius-md;
+
+    .mode-tab {
+      padding: 7px 18px;
+      border-radius: @radius-sm;
+      font-size: @fs-sm;
+      color: @muted;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        color: @text;
+      }
+      &.active {
+        background: @white;
+        color: @text;
+        font-weight: 600;
+        box-shadow: @shadow-sm;
+      }
+    }
+  }
+
+  .ring-wrap {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+
+    .pomo-arc {
+      transition: stroke-dashoffset 0.9s linear;
+    }
+
+    .time-display {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+
+      .time-text {
+        font-size: 52px;
+        font-weight: 700;
+        color: @text;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 2px;
+      }
+
+      .mode-label {
+        font-size: @fs-sm;
+        color: var(--mode-color);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .rounds {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: @border;
+      transition: background @dur-fast @ease;
+
+      &.filled {
+        background: var(--mode-color);
+      }
+    }
+
+    .rounds-text {
+      font-size: @fs-xs;
+      color: @muted;
+      margin-left: @gap-xs;
+    }
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: @gap-md;
+
+    .ctrl-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: @surface;
+      color: @text;
+      display: grid;
+      place-items: center;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        background: @border;
+      }
+
+      &.primary {
+        width: 64px;
+        height: 64px;
+        background: var(--mode-color);
+        color: @white;
+        box-shadow: 0 4px 14px rgba(232, 137, 107, 0.3);
+
+        &:hover {
+          transform: scale(1.05);
+          background: var(--mode-color);
+        }
+      }
+    }
+  }
+
+  .fullscreen-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: @radius-sm;
+    background: transparent;
+    border: 1.5px solid @border;
+    color: @muted;
+    font-size: @fs-sm;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      border-color: var(--mode-color);
+      color: var(--mode-color);
+    }
+  }
+}

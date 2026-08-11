@@ -1,0 +1,213 @@
+@import '../../theme/variables.less';
+
+/* 勋章墙 */
+.badge-wall {
+  margin-bottom: @gap-lg;
+
+  .bw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: @gap-md;
+
+    h3 {
+      font-size: @fs-lg;
+      color: @text;
+    }
+    .counter {
+      background: @primary-soft;
+      color: @text;
+      padding: 2px 12px;
+      border-radius: 999px;
+      font-size: @fs-sm;
+      font-weight: 600;
+    }
+  }
+
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: @gap-md;
+  }
+
+  .badge {
+    display: flex;
+    align-items: flex-start;
+    gap: @gap-md;
+    padding: @gap-md;
+    border-radius: @radius-md;
+    border: 1.5px solid @border;
+    transition: all @dur-fast @ease;
+
+    &.unlocked {
+      background: linear-gradient(135deg, @white, #FBF6F0);
+      border-color: @primary;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: @shadow-md;
+      }
+    }
+
+    &.locked {
+      background: @bg;
+      opacity: 0.65;
+    }
+
+    .badge-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: @radius-md;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 24px;
+
+      .emoji {
+        animation: gentle-bounce 2s ease-in-out infinite;
+      }
+    }
+
+    &.unlocked .badge-icon {
+      background: @primary-soft;
+    }
+    &.locked .badge-icon {
+      background: @surface;
+      color: @muted;
+    }
+
+    .badge-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      strong {
+        font-size: @fs-md;
+        color: @text;
+      }
+      .desc {
+        font-size: @fs-xs;
+        color: @muted;
+      }
+      .date {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: @fs-xs;
+        color: @success;
+        margin-top: 3px;
+      }
+    }
+  }
+}
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* 初心板 */
+.intention-board {
+  .ib-header {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+    margin-bottom: @gap-xs;
+
+    .heart-icon {
+      color: @accent;
+    }
+    h3 {
+      font-size: @fs-lg;
+      color: @text;
+    }
+  }
+
+  .ib-hint {
+    font-size: @fs-sm;
+    margin-bottom: @gap-md;
+  }
+
+  .ib-display {
+    position: relative;
+    cursor: pointer;
+    padding: @gap-md;
+    border-radius: @radius-md;
+    background: linear-gradient(135deg, #FBF6F0, @surface);
+    border: 1.5px dashed @border;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      border-color: @accent;
+      .ib-edit-btn {
+        opacity: 1;
+      }
+    }
+
+    .ib-text {
+      font-size: @fs-md;
+      color: @text;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .ib-placeholder {
+      font-size: @fs-md;
+      text-align: center;
+      padding: @gap-sm;
+    }
+
+    .ib-edit-btn {
+      position: absolute;
+      top: @gap-sm;
+      right: @gap-sm;
+      width: 28px;
+      height: 28px;
+      border-radius: @radius-sm;
+      color: @muted;
+      opacity: 0;
+      transition: opacity @dur-fast @ease;
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .ib-edit {
+    textarea {
+      width: 100%;
+      padding: @gap-md;
+      border: 1.5px solid @accent;
+      border-radius: @radius-md;
+      background: @white;
+      font-size: @fs-md;
+      color: @text;
+      line-height: 1.7;
+      outline: none;
+      resize: none;
+    }
+
+    .ib-actions {
+      display: flex;
+      gap: @gap-sm;
+      margin-top: @gap-sm;
+
+      .ib-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 7px 16px;
+        border-radius: @radius-sm;
+        font-size: @fs-sm;
+
+        &.save {
+          background: @accent;
+          color: @white;
+        }
+        &.cancel {
+          background: @surface;
+          color: @muted;
+        }
+      }
+    }
+  }
+}

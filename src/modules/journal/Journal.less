@@ -1,0 +1,70 @@
+@import '../../theme/variables.less';
+
+.journal-page {
+  .page-title {
+    font-size: @fs-xl;
+    color: @text;
+  }
+  .page-subtitle {
+    font-size: @fs-sm;
+    margin-bottom: @gap-lg;
+  }
+
+  .journal-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: @gap-lg;
+    align-items: start;
+
+    @media (max-width: 1000px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .journal-main {
+    display: flex;
+    flex-direction: column;
+    gap: @gap-md;
+  }
+
+  .weekly-summary {
+    .ws-header {
+      display: flex;
+      align-items: center;
+      gap: @gap-sm;
+      margin-bottom: @gap-sm;
+      color: @primary;
+
+      h3 {
+        font-size: @fs-md;
+        color: @text;
+      }
+    }
+
+    .ws-stats {
+      display: flex;
+      gap: @gap-md;
+      margin-bottom: @gap-sm;
+
+      .ws-stat {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: @fs-sm;
+        color: @muted;
+      }
+    }
+
+    .ws-text {
+      font-family: inherit;
+      font-size: @fs-sm;
+      color: @text;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      background: @bg;
+      padding: @gap-sm @gap-md;
+      border-radius: @radius-md;
+      margin: 0;
+    }
+  }
+}

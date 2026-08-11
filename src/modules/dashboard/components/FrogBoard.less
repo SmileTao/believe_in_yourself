@@ -1,0 +1,143 @@
+@import '../../../theme/variables.less';
+
+.frog-board {
+  .board-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: @gap-xs;
+
+    h3 {
+      font-size: @fs-lg;
+      color: @text;
+    }
+    .counter {
+      background: @primary-soft;
+      color: @text;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: @fs-xs;
+      font-weight: 600;
+    }
+  }
+
+  .hint {
+    font-size: @fs-sm;
+    margin-bottom: @gap-md;
+  }
+
+  .frog-input {
+    display: flex;
+    gap: @gap-sm;
+    margin-bottom: @gap-md;
+
+    input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid @border;
+      border-radius: @radius-md;
+      background: @bg;
+      font-size: @fs-sm;
+      outline: none;
+      transition: border-color @dur-fast @ease;
+
+      &:focus {
+        border-color: @accent;
+      }
+    }
+
+    .add-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: @radius-md;
+      background: @accent;
+      color: @white;
+      display: grid;
+      place-items: center;
+      transition: all @dur-fast @ease;
+
+      &:hover:not(:disabled) {
+        transform: scale(1.05);
+        box-shadow: @shadow-sm;
+      }
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .frog-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: @gap-sm;
+
+    .empty {
+      text-align: center;
+      padding: @gap-md;
+      font-size: @fs-sm;
+    }
+  }
+
+  .frog-item {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+    padding: 10px 12px;
+    background: @bg;
+    border-radius: @radius-md;
+    transition: all @dur-fast @ease;
+
+    &:hover {
+      background: @surface;
+      .del-btn {
+        opacity: 1;
+      }
+    }
+
+    &.done {
+      .frog-title {
+        color: @muted;
+        text-decoration: line-through;
+      }
+    }
+
+    .check-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid @border;
+      display: grid;
+      place-items: center;
+      color: transparent;
+      flex-shrink: 0;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        border-color: @accent;
+      }
+    }
+
+    &.done .check-circle {
+      background: @success;
+      border-color: @success;
+      color: @white;
+    }
+
+    .frog-title {
+      flex: 1;
+      font-size: @fs-md;
+      color: @text;
+    }
+
+    .del-btn {
+      color: @muted;
+      opacity: 0;
+      transition: opacity @dur-fast @ease;
+      &:hover {
+        color: @accent;
+      }
+    }
+  }
+}

@@ -1,0 +1,245 @@
+@import '../../theme/variables.less';
+
+.habits-page {
+  .page-title {
+    font-size: @fs-xl;
+    color: @text;
+    margin-bottom: @gap-lg;
+  }
+
+  .plan-tabs {
+    display: flex;
+    gap: @gap-sm;
+    margin-bottom: @gap-lg;
+    flex-wrap: wrap;
+
+    .plan-tab {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
+      border-radius: @radius-md;
+      background: @white;
+      border: 1.5px solid @border;
+      font-size: @fs-sm;
+      color: @text;
+      transition: all @dur-fast @ease;
+
+      &:hover {
+        border-color: @accent;
+      }
+      &.active {
+        background: @accent;
+        color: @white;
+        border-color: @accent;
+      }
+    }
+  }
+}
+
+.plan-calendar {
+  .cal-overview {
+    display: flex;
+    gap: @gap-xl;
+    padding-bottom: @gap-md;
+    margin-bottom: @gap-md;
+    border-bottom: 1px solid @border;
+
+    .ov-item {
+      display: flex;
+      align-items: center;
+      gap: @gap-xs;
+
+      span {
+        font-size: @fs-sm;
+        color: @muted;
+
+        b {
+          font-size: @fs-md;
+          color: @text;
+          font-weight: 700;
+        }
+      }
+
+      .accent { color: @accent; }
+      .success { color: @success; }
+    }
+  }
+
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @gap-md;
+    margin-bottom: @gap-md;
+
+    .nav-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: @muted;
+      display: grid;
+      place-items: center;
+      transition: all @dur-fast @ease;
+      &:hover {
+        background: @surface;
+        color: @text;
+      }
+    }
+
+    .month-label {
+      font-size: @fs-md;
+      font-weight: 600;
+      color: @text;
+      min-width: 100px;
+      text-align: center;
+    }
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+
+    .cal-weekday {
+      text-align: center;
+      font-size: @fs-xs;
+      color: @muted;
+      padding: 4px 0;
+      font-weight: 600;
+    }
+
+    .cal-cell {
+      aspect-ratio: 1;
+      border-radius: @radius-sm;
+      background: @bg;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all @dur-fast @ease;
+      cursor: pointer;
+
+      &.empty {
+        background: transparent;
+        cursor: default;
+      }
+
+      &.future {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      &:not(.empty):not(.future):hover {
+        background: @surface;
+        transform: scale(1.05);
+      }
+
+      &.done {
+        background: @success;
+        .cell-num {
+          color: @white;
+          font-weight: 700;
+        }
+        .cell-check {
+          position: absolute;
+          top: 3px;
+          right: 3px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: @white;
+        }
+        .cell-val {
+          font-size: 9px;
+          color: @white;
+          font-weight: 600;
+          margin-top: 1px;
+        }
+      }
+
+      &.today {
+        box-shadow: 0 0 0 2px @accent;
+      }
+
+      .cell-num {
+        font-size: @fs-sm;
+        color: @text;
+      }
+
+      .cell-att {
+        position: absolute;
+        bottom: 2px;
+        left: 3px;
+        color: @white;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .cal-hint {
+    font-size: @fs-xs;
+    margin-top: @gap-md;
+    text-align: center;
+  }
+}
+
+/* 附件查看器 */
+.att-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+  animation: att-fade 0.2s @ease;
+}
+
+.att-viewer {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .viewer-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: @white;
+    color: @text;
+    display: grid;
+    place-items: center;
+    &:hover { opacity: 0.8; }
+  }
+
+  .viewer-date {
+    color: @white;
+    font-size: @fs-sm;
+    margin-bottom: @gap-sm;
+  }
+
+  img,
+  video {
+    max-width: 85vw;
+    max-height: 75vh;
+    border-radius: @radius-md;
+    object-fit: contain;
+  }
+
+  .viewer-name {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: @fs-xs;
+    margin-top: @gap-sm;
+  }
+}
+
+@keyframes att-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

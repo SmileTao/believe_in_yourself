@@ -1,0 +1,46 @@
+@import '../../../theme/variables.less';
+
+.ring-progress {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+
+  svg {
+    display: block;
+  }
+
+  .ring-arc {
+    transition: stroke-dashoffset 0.8s @ease;
+  }
+
+  .ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    .ring-num {
+      font-size: @fs-xxl;
+      font-weight: 700;
+      color: @text;
+      line-height: 1;
+      small {
+        font-size: @fs-md;
+        color: @muted;
+        font-weight: 400;
+      }
+    }
+
+    .ring-label {
+      font-size: @fs-xs;
+      color: @muted;
+    }
+
+    &.celebrate .ring-num {
+      color: @accent;
+    }
+  }
+}
