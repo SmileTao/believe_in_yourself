@@ -24,10 +24,10 @@ export const frogRepository: FrogRepository = {
       )
       .run({
         id,
-        day_key: input.dayKey,
+        dayKey: input.dayKey,
         title: input.title,
-        plan_id: input.planId ?? null,
-        sort_order: sortOrder
+        planId: input.planId ?? null,
+        sortOrder
       });
     return db().prepare(`SELECT * FROM frogs WHERE id = ?`).get(id) as Frog;
   },

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell, Notification, nativeImage, dialog, protocol, net } from 'electron';
+import { app, BrowserWindow, ipcMain, shell, Notification, nativeImage, dialog, protocol } from 'electron';
 import { join, extname } from 'node:path';
 import { copyFileSync, readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
 import { getDb, closeDb, collectDbInfo, getDbPath } from './db/connection';
@@ -25,6 +25,22 @@ const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
 // 窗口标题与 dock 显示中文；userData 目录统一用 shibie（避免中文路径）
 app.setName(APP_NAME_ZH);
 app.setPath('userData', join(app.getPath('appData'), 'shibie'));
+
+// 声明 att:// 为特权协议：必须在 app.ready 之前调用。
+// 否则 Chromium 会在 <img>/<video> 中拦截未注册的自定义协议 → 裂图。
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'att',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      stream: true,        // 允许视频 seek / range 请求
+      codeCache: true,
+      bypassCSP: true
+    }
+  }
+]);
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -109,6 +125,7 @@ function registerIpc(): void {
   // pomodoro
   ipcMain.handle('pomodoro:start', (_e, input) => repos.pomodoro.start(input));
   ipcMain.handle('pomodoro:finish', (_e, id, dur) => repos.pomodoro.finish(id, dur));
+  ipcMain.handle('pomodoro:focusCount', (_e, dayKey: string) => repos.pomodoro.getFocusCountByDay(dayKey));
 
   // journal
   ipcMain.handle('journal:get', (_e, dayKey) => repos.journal.getByDay(dayKey));
@@ -277,12 +294,31 @@ function registerIpc(): void {
 void APP_BUNDLE_ID;
 
 app.whenReady().then(() => {
-  // 注册 att:// 自定义协议，用于渲染层访问附件文件
+  // 注册 att:// 自定义协议：直接读取附件文件并返回 Response
+  // att://{planId}/{dayKey}.{ext} → attachments/{planId}/{dayKey}.{ext}
+  const MIME: Record<string, string> = {
+    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif', '.webp': 'image/webp', '.bmp': 'image/bmp',
+    '.mp4': 'video/mp4', '.mov': 'video/quicktime', '.webm': 'video/webm',
+    '.avi': 'video/x-msvideo', '.mkv': 'video/x-matroska'
+  };
+
   protocol.handle('att', (request) => {
-    // att://planId/dayKey.ext → attachments 目录下文件
+    // 从 URL 中提取相对路径：att://planId/2026-08-11.png → planId/2026-08-11.png
     const relPath = decodeURIComponent(request.url.slice('att://'.length));
     const filePath = join(getAttachmentsDir(), relPath);
-    return net.fetch('file://' + filePath);
+
+    if (!existsSync(filePath)) {
+      return new Response('File not found', { status: 404 });
+    }
+
+    const ext = extname(filePath).toLowerCase();
+    const contentType = MIME[ext] ?? 'application/octet-stream';
+    const data = readFileSync(filePath);
+    return new Response(new Uint8Array(data), {
+      status: 200,
+      headers: { 'Content-Type': contentType }
+    });
   });
 
   registerIpc();

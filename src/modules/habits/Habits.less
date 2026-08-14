@@ -132,12 +132,17 @@
       }
 
       &:not(.empty):not(.future):hover {
-        background: @surface;
+        background: @primary-soft;
         transform: scale(1.05);
       }
 
       &.done {
         background: @success;
+
+        &:hover {
+          background: darken(@success, 6%);
+        }
+
         .cell-num {
           color: @white;
           font-weight: 700;

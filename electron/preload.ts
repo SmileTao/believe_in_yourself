@@ -48,7 +48,8 @@ const api: ShibieApi = {
 
   pomodoro: {
     start: (input) => ipcRenderer.invoke('pomodoro:start', input),
-    finish: (id, durationMinutes) => ipcRenderer.invoke('pomodoro:finish', id, durationMinutes)
+    finish: (id, durationMinutes) => ipcRenderer.invoke('pomodoro:finish', id, durationMinutes),
+    getFocusCountByDay: (dayKey: string) => ipcRenderer.invoke('pomodoro:focusCount', dayKey)
   },
 
   journal: {

@@ -78,6 +78,8 @@ export interface FrogRepository {
 export interface PomodoroRepository {
   start(input: { planId?: string | null; mode: 'focus' | 'break' }): PomodoroSession;
   finish(id: string, durationMinutes: number): PomodoroSession | undefined;
+  /** 查询某天已完成的专注次数（ended_at 非空且 mode='focus'） */
+  getFocusCountByDay(dayKey: string): number;
 }
 
 export interface JournalRepository {

@@ -44,7 +44,7 @@ export const journalRepository: JournalRepository = {
       )
       .run({
         id,
-        day_key: input.dayKey,
+        dayKey: input.dayKey,
         s1: input.sentence1 ?? null,
         s2: input.sentence2 ?? null,
         s3: input.sentence3 ?? null,

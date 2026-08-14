@@ -10,7 +10,7 @@ export const pomodoroRepository: PomodoroRepository = {
         `INSERT INTO pomodoro_sessions (id, plan_id, started_at, mode)
          VALUES (@id, @planId, @startedAt, @mode)`
       )
-      .run({ id, plan_id: input.planId ?? null, started_at: startedAt, mode: input.mode });
+      .run({ id, planId: input.planId ?? null, startedAt, mode: input.mode });
     return db().prepare(`SELECT * FROM pomodoro_sessions WHERE id = ?`).get(id) as PomodoroSession;
   },
 
@@ -21,5 +21,16 @@ export const pomodoroRepository: PomodoroRepository = {
     return db()
       .prepare(`SELECT * FROM pomodoro_sessions WHERE id = ?`)
       .get(id) as PomodoroSession | undefined;
+  },
+
+  getFocusCountByDay(dayKey: string) {
+    const row = db()
+      .prepare(
+        `SELECT COUNT(*) as cnt FROM pomodoro_sessions
+         WHERE mode = 'focus' AND ended_at IS NOT NULL
+           AND date(started_at) = ?`
+      )
+      .get(dayKey) as { cnt: number } | undefined;
+    return row?.cnt ?? 0;
   }
 };

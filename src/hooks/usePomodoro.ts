@@ -1,23 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { create } from 'zustand';
 import { usePrefs } from '../store';
 import { APP_NAME_ZH } from '@shared/constants';
 
 export type PomodoroMode = 'focus' | 'shortBreak' | 'longBreak';
-
-interface PomodoroState {
-  mode: PomodoroMode;
-  /** 剩余秒数 */
-  remaining: number;
-  /** 总秒数（当前模式） */
-  total: number;
-  running: boolean;
-  /** 本轮已完成的专注次数 */
-  focusCount: number;
-  /** 关联的计划 ID */
-  planId: string | null;
-  /** 是否全屏专注 */
-  fullScreen: boolean;
-}
 
 /** 各模式时长（秒），从 prefs 读取 */
 function getDurations() {
@@ -46,181 +31,249 @@ const MODE_LABEL: Record<PomodoroMode, string> = {
 
 export { MODE_LABEL };
 
-export function usePomodoro() {
-  const { pomodoroFocus, pomodoroBreak } = usePrefs();
-  const [state, setState] = useState<PomodoroState>(() => {
+// ─── 模块级可变状态（组件卸载后依然存活） ───
+
+/** 截止时间戳（ms），时间戳驱动计时不受后台节流影响 */
+let endAt: number | null = null;
+/** DB 会话 ID */
+let sessionId: string | null = null;
+/** setInterval ID */
+let timerId: ReturnType<typeof setInterval> | null = null;
+/** 防止 handleComplete 重入 */
+let completing = false;
+
+function clearTimer() {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+// ─── Zustand Store ───
+
+interface PomodoroState {
+  mode: PomodoroMode;
+  /** 剩余秒数 */
+  remaining: number;
+  /** 总秒数（当前模式） */
+  total: number;
+  running: boolean;
+  /** 本轮已完成的专注次数 */
+  focusCount: number;
+  /** 关联的计划 ID */
+  planId: string | null;
+  /** 是否全屏专注 */
+  fullScreen: boolean;
+
+  switchMode: (mode: PomodoroMode) => void;
+  start: () => Promise<void>;
+  pause: () => void;
+  reset: () => void;
+  skip: () => void;
+  setPlan: (planId: string | null) => void;
+  toggleFullScreen: () => Promise<void>;
+  exitFullScreen: () => Promise<void>;
+}
+
+function initDurations() {
+  const d = getDurations();
+  return { remaining: d.focus, total: d.focus };
+}
+
+/** 计时结束时处理：写入 DB + 通知 + 切下一阶段 */
+async function handleComplete() {
+  if (completing) return;
+  completing = true;
+
+  const s = usePomodoroStore.getState();
+  const minutes = Math.round(s.total / 60);
+
+  // 写入 DB
+  if (s.mode === 'focus' && sessionId) {
+    await window.api.pomodoro.finish(sessionId, minutes);
+    sessionId = null;
+    if (s.planId) {
+      await window.api.checkin.check({
+        planId: s.planId,
+        dayKey: new Date().toISOString().slice(0, 10),
+        durationMinutes: minutes
+      });
+    }
+  }
+
+  // 通知
+  const isFocus = s.mode === 'focus';
+  await window.api.notify(
+    `${APP_NAME_ZH} · ${isFocus ? '专注完成' : '休息结束'}`,
+    isFocus
+      ? '辛苦了，起来活动一下吧 🌱'
+      : '准备好了吗？继续下一段专注 💪'
+  );
+
+  // 切下一阶段
+  endAt = null;
+  if (isFocus) {
+    const newCount = s.focusCount + 1;
+    const nextMode: PomodoroMode =
+      newCount % LONG_BREAK_EVERY === 0 ? 'longBreak' : 'shortBreak';
     const d = getDurations();
-    return {
+    usePomodoroStore.setState({
+      focusCount: newCount,
+      mode: nextMode,
+      remaining: d[nextMode],
+      total: d[nextMode],
+      running: false
+    });
+  } else {
+    const d = getDurations();
+    usePomodoroStore.setState({
       mode: 'focus',
       remaining: d.focus,
       total: d.focus,
-      running: false,
-      focusCount: 0,
-      planId: null,
-      fullScreen: false
-    };
-  });
-
-  // DB 会话 ID（计时结束写入）
-  const sessionId = useRef<string | null>(null);
-  // 避免回调闭包过期
-  const stateRef = useRef(state);
-  stateRef.current = state;
-
-  /** 切换模式并重置计时 */
-  const switchMode = useCallback((mode: PomodoroMode) => {
-    const d = getDurations();
-    setState((prev) => ({
-      ...prev,
-      mode,
-      remaining: d[mode],
-      total: d[mode],
       running: false
-    }));
-  }, []);
+    });
+  }
 
-  /** 倒计时 tick */
-  useEffect(() => {
-    if (!state.running) return;
-    const timer = window.setInterval(() => {
-      setState((prev) => {
-        if (prev.remaining <= 1) {
-          // 计时结束
-          return { ...prev, remaining: 0, running: false };
-        }
-        return { ...prev, remaining: prev.remaining - 1 };
-      });
-    }, 1000);
-    return () => window.clearInterval(timer);
-  }, [state.running]);
+  completing = false;
+}
 
-  /** 计时结束时自动处理：写入 DB + 通知 + 切下一阶段 */
-  useEffect(() => {
-    if (state.remaining !== 0 || state.running) return;
+/** tick — 基于时间戳计算，不受 setInterval 节流影响 */
+function tick() {
+  if (endAt === null) return;
+  const remainingSec = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+  const s = usePomodoroStore.getState();
+
+  if (remainingSec <= 0) {
+    endAt = null;
+    clearTimer();
+    usePomodoroStore.setState({ remaining: 0, running: false });
     handleComplete();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.remaining, state.running]);
+  } else if (s.remaining !== remainingSec) {
+    usePomodoroStore.setState({ remaining: remainingSec });
+  }
+}
 
-  const handleComplete = useCallback(async () => {
-    const current = stateRef.current;
-    const minutes = Math.round(current.total / 60);
+export const usePomodoroStore = create<PomodoroState>((set, get) => ({
+  mode: 'focus',
+  ...initDurations(),
+  running: false,
+  focusCount: 0,
+  planId: null,
+  fullScreen: false,
 
-    // 写入 DB
-    if (current.mode === 'focus' && sessionId.current) {
-      await window.api.pomodoro.finish(sessionId.current, minutes);
-      sessionId.current = null;
-      // 计入计划时长
-      if (current.planId) {
-        await window.api.checkin.check({
-          planId: current.planId,
-          dayKey: new Date().toISOString().slice(0, 10),
-          durationMinutes: minutes
-        });
-      }
-    }
+  switchMode: (mode) => {
+    endAt = null;
+    clearTimer();
+    const d = getDurations();
+    set({ mode, remaining: d[mode], total: d[mode], running: false });
+  },
 
-    // 通知
-    const isFocus = current.mode === 'focus';
-    await window.api.notify(
-      `${APP_NAME_ZH} · ${isFocus ? '专注完成' : '休息结束'}`,
-      isFocus
-        ? '辛苦了，起来活动一下吧 🌱'
-        : '准备好了吗？继续下一段专注 💪'
-    );
-
-    // 自动切下一阶段
-    if (current.mode === 'focus') {
-      const newCount = current.focusCount + 1;
-      const nextMode: PomodoroMode =
-        newCount % LONG_BREAK_EVERY === 0 ? 'longBreak' : 'shortBreak';
-      setState((prev) => ({
-        ...prev,
-        focusCount: newCount,
-        mode: nextMode,
-        remaining: getDurations()[nextMode],
-        total: getDurations()[nextMode],
-        running: false
-      }));
-    } else {
-      switchMode('focus');
-    }
-  }, [switchMode]);
-
-  /** 开始/恢复 */
-  const start = useCallback(async () => {
-    if (state.running) return;
+  start: async () => {
+    const s = get();
+    if (s.running) return;
     // 开始新的专注会话时记录到 DB
-    if (state.mode === 'focus' && !sessionId.current) {
+    if (s.mode === 'focus' && !sessionId) {
       const session = await window.api.pomodoro.start({
-        planId: state.planId,
+        planId: s.planId,
         mode: 'focus'
       });
-      sessionId.current = session.id;
+      sessionId = session.id;
     }
-    setState((prev) => ({ ...prev, running: true }));
-  }, [state.running, state.mode, state.planId]);
+    // 设置截止时间戳并启动 tick
+    endAt = Date.now() + s.remaining * 1000;
+    set({ running: true });
+    clearTimer();
+    timerId = setInterval(tick, 500);
+    tick(); // 立即执行一次
+  },
 
-  /** 暂停 */
-  const pause = useCallback(() => {
-    setState((prev) => ({ ...prev, running: false }));
-  }, []);
+  pause: () => {
+    if (endAt !== null) {
+      const remainingSec = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      endAt = null;
+      set({ remaining: remainingSec, running: false });
+    } else {
+      set({ running: false });
+    }
+    clearTimer();
+  },
 
-  /** 重置当前模式计时 */
-  const reset = useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      remaining: prev.total,
-      running: false
-    }));
-  }, []);
+  reset: () => {
+    endAt = null;
+    clearTimer();
+    set((prev) => ({ remaining: prev.total, running: false }));
+  },
 
-  /** 跳过当前阶段 */
-  const skip = useCallback(() => {
-    setState((prev) => ({ ...prev, remaining: 0, running: false }));
-  }, []);
+  skip: () => {
+    endAt = null;
+    clearTimer();
+    set({ remaining: 0, running: false });
+    handleComplete();
+  },
 
-  /** 设置关联计划 */
-  const setPlan = useCallback((planId: string | null) => {
-    setState((prev) => ({ ...prev, planId }));
-  }, []);
+  setPlan: (planId) => set({ planId }),
 
-  /** 全屏专注切换 */
-  const toggleFullScreen = useCallback(async () => {
-    const next = !state.fullScreen;
+  toggleFullScreen: async () => {
+    const next = !get().fullScreen;
     await window.api.setFullScreen(next);
-    setState((prev) => ({ ...prev, fullScreen: next }));
-  }, [state.fullScreen]);
+    set({ fullScreen: next });
+  },
 
-  /** 退出全屏 */
-  const exitFullScreen = useCallback(async () => {
-    if (state.fullScreen) {
+  exitFullScreen: async () => {
+    if (get().fullScreen) {
       await window.api.setFullScreen(false);
-      setState((prev) => ({ ...prev, fullScreen: false }));
+      set({ fullScreen: false });
     }
-  }, [state.fullScreen]);
+  }
+}));
 
-  // 时长偏好变化时，若未运行则更新当前模式时长
-  useEffect(() => {
-    if (!state.running) {
-      const d = getDurations();
-      setState((prev) => ({
-        ...prev,
-        remaining: d[prev.mode],
-        total: d[prev.mode]
-      }));
+// ─── 全局副作用（只注册一次，不随组件生命周期销毁） ───
+
+/** 窗口重新可见时立即校准 */
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    const s = usePomodoroStore.getState();
+    if (s.running && endAt !== null) {
+      const remainingSec = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      if (remainingSec <= 0) {
+        endAt = null;
+        clearTimer();
+        usePomodoroStore.setState({ remaining: 0, running: false });
+        handleComplete();
+      } else {
+        usePomodoroStore.setState({ remaining: remainingSec });
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pomodoroFocus, pomodoroBreak]);
+  });
+}
 
-  return {
-    ...state,
-    start,
-    pause,
-    reset,
-    skip,
-    switchMode,
-    setPlan,
-    toggleFullScreen,
-    exitFullScreen
-  };
+/** 时长偏好变化时，若未运行则更新当前模式时长 */
+usePrefs.subscribe((state, prevState) => {
+  if (
+    state.pomodoroFocus === prevState.pomodoroFocus &&
+    state.pomodoroBreak === prevState.pomodoroBreak
+  )
+    return;
+  const s = usePomodoroStore.getState();
+  if (!s.running) {
+    const d = getDurations();
+    usePomodoroStore.setState({
+      remaining: d[s.mode],
+      total: d[s.mode]
+    });
+  }
+});
+
+/** 从 DB 加载今日已完成专注次数（app 启动后执行一次） */
+if (typeof window !== 'undefined' && window.api?.pomodoro?.getFocusCountByDay) {
+  const todayKey = new Date().toISOString().slice(0, 10);
+  window.api.pomodoro.getFocusCountByDay(todayKey).then((count: number) => {
+    usePomodoroStore.setState({ focusCount: count });
+  });
+}
+
+/** React Hook — 供组件使用，API 保持不变 */
+export function usePomodoro() {
+  return usePomodoroStore();
 }

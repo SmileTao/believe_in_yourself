@@ -44,8 +44,8 @@ export default function JournalEditor({ entry, saving, onSave }: JournalEditorPr
     setSaved(false);
   }, [entry]);
 
-  const handleSave = () => {
-    onSave({ sentence1: s1, sentence2: s2, sentence3: s3, mood });
+  const handleSave = async () => {
+    await onSave({ sentence1: s1, sentence2: s2, sentence3: s3, mood });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
