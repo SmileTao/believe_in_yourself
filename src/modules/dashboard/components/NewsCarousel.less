@@ -1,0 +1,149 @@
+@import '../../../theme/variables.less';
+
+.news-carousel {
+  position: relative;
+  .glass-card;
+  height: 230px;           // 固定高度(标题可完整显示),不随内容变化
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: @gap-md @gap-lg;
+  margin-bottom: @gap-lg;
+  overflow: hidden;
+  background:
+    linear-gradient(120deg, rgba(52, 211, 153, 0.1) 0%, transparent 45%, rgba(34, 211, 238, 0.08) 100%),
+    @card-bg-grad;
+
+  &.empty {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+    color: @muted;
+    font-size: @fs-sm;
+  }
+
+  .carousel-glow {
+    position: absolute;
+    top: -60px;
+    right: -40px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 70%);
+    pointer-events: none;
+  }
+
+  .carousel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: @gap-sm;
+
+    .carousel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: @fs-xs;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: @accent;
+      background: @accent-soft;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .carousel-count {
+      font-size: @fs-xs;
+      color: @muted;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .carousel-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;          // 允许在固定高度内收缩
+    width: 100%;
+    min-width: 0;           // 打通 flex 收缩链,允许子元素被压窄
+    overflow: hidden;       // 超出部分在本层截断,省略号在卡片内边距处生效
+    text-align: left;
+    transition: opacity @dur @ease;
+
+    .carousel-title {
+      font-size: @fs-xl;
+      font-weight: 700;
+      color: @text;
+      line-height: 1.4;
+      margin-bottom: @gap-xs;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;   // 增高后最多三行,标题显示更完整
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      padding-right: @gap-md;
+    }
+
+    .carousel-summary {
+      display: block;
+      width: 100%;
+      font-size: @fs-sm;
+      color: @muted;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: @gap-lg;   // 省略号距右边界 24px,不贴边
+      margin-bottom: @gap-xs;
+    }
+
+    .carousel-meta {
+      font-size: @fs-xs;
+      color: @primary;
+    }
+
+    &:hover .carousel-title {
+      color: @primary;
+    }
+  }
+
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: @gap-sm;
+    margin-top: @gap-sm;
+
+    .ctrl-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: @radius-sm;
+      display: grid;
+      place-items: center;
+      color: @muted;
+      border: 1px solid @border;
+      transition: all @dur-fast @ease;
+      &:hover {
+        color: @accent;
+        border-color: rgba(34, 211, 238, 0.4);
+      }
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+
+      .dot {
+        width: 16px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(148, 163, 184, 0.25);
+        transition: all @dur @ease;
+        &.active {
+          background: @sunset-grad;
+          box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+        }
+      }
+    }
+  }
+}

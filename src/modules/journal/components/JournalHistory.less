@@ -192,6 +192,13 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      // 内容较多时才滚动(上限 800px)
+      max-height: 800px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      // 滚动条顶到气泡最右边缘,文字仍与边缘保持距离
+      margin-right: -@gap-lg;
+      padding-right: calc(@gap-lg - 4px);
 
       .line {
         font-size: @fs-sm;

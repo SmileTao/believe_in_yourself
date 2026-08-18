@@ -146,7 +146,7 @@ export default function Settings() {
       <div className="settings-section card about">
         <h3>关于</h3>
         <p className="muted">士别三日 · shibie v0.1.0</p>
-        <p className="muted">三日一寸，刮目相待。</p>
+        <p className="muted">士别三日，刮目相看。</p>
         <p className="muted">数据全部存储在本地，你的坚持只属于你自己。</p>
       </div>
     </div>

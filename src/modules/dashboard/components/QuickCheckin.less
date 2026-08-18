@@ -7,19 +7,18 @@
 }
 
 .plan-card {
-  background: @field-bg-hover;
-  border-radius: @radius-lg;
+  .glass-card;   // 与全局卡片一致的拟态渐变背景
   padding: @gap-md;
-  box-shadow: @shadow-sm;
-  border: 1.5px solid transparent;
   display: flex;
   flex-direction: column;
   gap: @gap-sm;
   position: relative;
 
   &.done {
-    background: @sunset-grad-soft;
-    border-color: @success;
+    background:
+      linear-gradient(120deg, rgba(52, 211, 153, 0.1), rgba(34, 211, 238, 0.08)),
+      @card-bg-grad;
+    border-color: rgba(52, 211, 153, 0.45);
   }
 
   .plan-head {

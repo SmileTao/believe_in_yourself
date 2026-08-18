@@ -1,0 +1,134 @@
+@import '../../../theme/variables.less';
+
+.news-list {
+  .news-list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: @gap-md;
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: @gap-sm;
+      font-size: @fs-lg;
+      color: @text;
+    }
+
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: @fs-xs;
+      color: @muted;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid @border;
+      transition: all @dur-fast @ease;
+      &:hover:not(:disabled) {
+        color: @accent;
+        border-color: rgba(34, 211, 238, 0.4);
+      }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .spinning {
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  .news-error {
+    color: @warning;
+    font-size: @fs-sm;
+    margin-bottom: @gap-sm;
+  }
+
+  .news-empty {
+    font-size: @fs-sm;
+    text-align: center;
+    padding: @gap-lg 0;
+  }
+
+  .news-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+
+    li + li {
+      border-top: 1px solid @border;
+    }
+  }
+
+  .news-item {
+    display: flex;
+    align-items: center;
+    gap: @gap-md;
+    width: 100%;
+    padding: 12px 8px;
+    text-align: left;
+    border-radius: @radius-sm;
+    transition: background @dur-fast @ease;
+    &:hover {
+      background: rgba(148, 163, 184, 0.06);
+      .news-title { color: @primary; }
+      .news-link-icon { opacity: 1; }
+    }
+
+    .news-source {
+      flex-shrink: 0;
+      font-size: @fs-xs;
+      color: @accent;
+      background: @accent-soft;
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .news-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .news-title {
+        font-size: @fs-md;
+        color: @text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color @dur-fast @ease;
+      }
+
+      .news-summary {
+        font-size: @fs-xs;
+        color: @muted;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .news-time {
+      flex-shrink: 0;
+      font-size: @fs-xs;
+      color: @muted;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .news-link-icon {
+      flex-shrink: 0;
+      color: @muted;
+      opacity: 0;
+      transition: opacity @dur-fast @ease;
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

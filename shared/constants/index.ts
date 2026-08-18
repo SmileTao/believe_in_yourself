@@ -3,7 +3,7 @@ import type { Plan, SkillNode } from '@shared/types';
 /** 应用标识 */
 export const APP_NAME_ZH = '士别三日';
 export const APP_NAME_EN = 'shibie';
-export const APP_SLOGAN = '三日一寸，刮目相待。';
+export const APP_SLOGAN = '士别三日，刮目相看。';
 export const APP_BUNDLE_ID = 'com.shibie.app';
 
 /** 温柔文案池 */
