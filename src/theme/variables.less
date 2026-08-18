@@ -1,36 +1,39 @@
-// 清新绿色主题变量（活力绿系）
-// 背景：浅绿渐变（比卡片深，让白色卡片更突出）
-@bg: #EDF7F0;
-@bg-2: #F2FAF4;       // 渐变第二色（更浅）
-@surface: #F5FBF7;
-@primary: #4ADE80;
-@accent: #22C55E;
-@accent-2: #4ADE80;   // 渐变第二色（亮绿）
-@success: #16A34A;
-@warning: #FACC15;    // 暖黄（休息态 / 警告）
-@text: #1F3A28;
-@muted: #6B8174;
+// 现代深色科技风主题（Linear / Arc 风格）
+// 深色底 + 玻璃拟态卡片 + 霓虹绿青渐变点缀
+@bg: #0A0E14;
+@bg-2: #0D1220;       // 渐变第二色（略带蓝调）
+@surface: #131A26;
+@surface-glass: rgba(19, 26, 38, 0.72);
+@primary: #34D399;
+@accent: #22D3EE;
+@accent-2: #34D399;   // 渐变第二色（霓虹绿）
+@success: #34D399;
+@warning: #FBBF24;    // 琥珀（休息态 / 警告）
+@text: #E6EDF3;
+@muted: #8B98A9;
 
 // 衍生
-@primary-soft: #DCFCE7;
-@accent-soft: #DCFCE7;
-@success-soft: #BBF7D0;
-@border: #D1E8D5;
+@field-bg: rgba(148, 163, 184, 0.06);        // 输入框/列表项普通底（柔和抬升层）
+@field-bg-hover: rgba(52, 211, 153, 0.1);    // 列表项悬浮底（绿调微光）
+@primary-soft: rgba(52, 211, 153, 0.14);
+@accent-soft: rgba(34, 211, 238, 0.14);
+@success-soft: rgba(52, 211, 153, 0.2);
+@border: rgba(148, 163, 184, 0.14);
 @white: #FFFFFF;
 
-// 清新绿渐变（多处复用）
-@sunset-grad: linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%);
-@sunset-grad-soft: linear-gradient(135deg, #DCFCE7 0%, #ECFDF5 100%);
+// 品牌渐变（绿→青，多处复用）
+@sunset-grad: linear-gradient(135deg, #34D399 0%, #22D3EE 100%);
+@sunset-grad-soft: linear-gradient(135deg, rgba(52, 211, 153, 0.12) 0%, rgba(34, 211, 238, 0.12) 100%);
 
-// 侧边栏（浅绿渐变，非橙色系，文字高对比）
-@sidebar-bg: linear-gradient(180deg, #E0F2E6 0%, #C5E5D0 100%);
-@sidebar-text: #3A4A3E;          // 导航默认文字（深绿灰，高对比）
-@sidebar-text-strong: #2A352C;   // 应用名称
-@sidebar-text-muted: #5F7063;    // 应用描述（可读，不过淡）
-@sidebar-hover-bg: rgba(255, 255, 255, 0.6);
-@sidebar-active-bg: @white;
-@sidebar-active-text: #16A34A;   // 激活态文字（深绿，呼应侧边栏）
-@sidebar-border: #BDD9C4;
+// 侧边栏（深色玻璃质感）
+@sidebar-bg: linear-gradient(180deg, #0C111B 0%, #0A0F18 100%);
+@sidebar-text: #9AA7B8;
+@sidebar-text-strong: #F1F5F9;
+@sidebar-text-muted: #64748B;
+@sidebar-hover-bg: rgba(148, 163, 184, 0.08);
+@sidebar-active-bg: rgba(52, 211, 153, 0.12);
+@sidebar-active-text: #34D399;
+@sidebar-border: rgba(148, 163, 184, 0.1);
 
 // 圆角
 @radius-sm: 8px;
@@ -38,10 +41,12 @@
 @radius-lg: 16px;
 @radius-xl: 24px;
 
-// 阴影（绿色调，更强以区分卡片）
-@shadow-sm: 0 1px 4px rgba(34, 197, 94, 0.08);
-@shadow-md: 0 4px 16px rgba(34, 197, 94, 0.12);
-@shadow-lg: 0 12px 36px rgba(34, 197, 94, 0.16);
+// 阴影（深色投影 + 主色辉光）
+@shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.3);
+@shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+@shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
+@glow-primary: 0 0 24px rgba(52, 211, 153, 0.18);
+@glow-accent: 0 0 24px rgba(34, 211, 238, 0.18);
 
 // 间距
 @gap-xs: 4px;
@@ -62,3 +67,59 @@
 @ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 @dur-fast: 0.16s;
 @dur: 0.26s;
+
+// 卡片拟态渐变背景（比背景明显抬升,边界清晰）
+@card-bg-grad: linear-gradient(160deg, rgba(32, 44, 60, 0.92) 0%, rgba(19, 26, 38, 0.96) 100%);
+
+// 玻璃拟态卡片 mixin
+.glass-card {
+  background: @card-bg-grad;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: @radius-lg;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05); // 顶部内高光,拟态立体感
+}
+
+// 弹窗遮罩 mixin：深色 + 背景模糊，突出弹窗边界
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(3, 7, 12, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  animation: dialog-fade 0.2s @ease;
+}
+
+// 弹窗面板 mixin：实底渐变 + 描边 + 大阴影
+.dialog-panel {
+  background: linear-gradient(160deg, #172130 0%, #121926 100%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: @radius-lg;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(52, 211, 153, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: dialog-pop 0.25s @ease;
+}
+
+@keyframes dialog-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -11,6 +11,7 @@ export type {
   SkillNode,
   Achievement,
   Setting,
+  NewsItem,
   StreakInfo,
   HeatmapCell,
   CompletionRate,
@@ -26,6 +27,7 @@ import type {
   WeeklySummary,
   SkillNode,
   Achievement,
+  NewsItem,
   StreakInfo,
   HeatmapCell,
   CompletionRate,
@@ -177,6 +179,8 @@ export interface ShibieApi {
   pomodoro: {
     start: (input: PomodoroInput) => Promise<PomodoroSession>;
     finish: (id: string, durationMinutes: number) => Promise<PomodoroSession | undefined>;
+    /** 查询某天已完成的专注次数 */
+    getFocusCountByDay: (dayKey: string) => Promise<number>;
   };
   journal: {
     getByDay: (dayKey: string) => Promise<JournalEntry | undefined>;
@@ -191,6 +195,13 @@ export interface ShibieApi {
   achievement: {
     list: () => Promise<Achievement[]>;
     unlock: (code: string) => Promise<Achievement | undefined>;
+  };
+  /** AI 资讯（RSS 聚合） */
+  news: {
+    refresh: () => Promise<{ ok: boolean; inserted: number; total: number; fetchedAt: string }>;
+    list: (limit?: number) => Promise<NewsItem[]>;
+    todayHeadlines: (limit?: number) => Promise<NewsItem[]>;
+    openLink: (url: string) => Promise<void>;
   };
 }
 

@@ -7,7 +7,7 @@
 }
 
 .plan-card {
-  background: @white;
+  background: @field-bg-hover;
   border-radius: @radius-lg;
   padding: @gap-md;
   box-shadow: @shadow-sm;
@@ -18,7 +18,7 @@
   position: relative;
 
   &.done {
-    background: linear-gradient(135deg, @white, #F0FDF4);
+    background: @sunset-grad-soft;
     border-color: @success;
   }
 
@@ -76,7 +76,7 @@
     font-size: @fs-xs;
 
     &.streak {
-      background: #DCFCE7;
+      background: @primary-soft;
       color: @accent;
     }
     &.metric {
@@ -90,7 +90,7 @@
     margin-top: auto;
     padding: 9px;
     border-radius: @radius-md;
-    background: @surface;
+    background: @field-bg-hover;
     color: @text;
     font-size: @fs-sm;
     font-weight: 600;
@@ -139,7 +139,7 @@
       border-radius: @radius-sm;
       font-size: @fs-sm;
       outline: none;
-      background: @bg;
+      background: @field-bg;
       &:focus {
         border-color: @accent;
       }
@@ -158,7 +158,7 @@
       width: 30px;
       height: 30px;
       border-radius: @radius-sm;
-      background: @surface;
+      background: @field-bg-hover;
       color: @muted;
       display: grid;
       place-items: center;

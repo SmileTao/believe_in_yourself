@@ -4,14 +4,17 @@
   display: flex;
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(160deg, @bg-2 0%, @bg 60%, darken(@bg, 3%) 100%);
+  background: @bg;
 }
 
-/* —— 侧边栏（浅绿渐变） —— */
+/* —— 侧边栏（独立渐变背景：深蓝绿纵向渐变 + 底部青色光晕） —— */
 .sidebar {
   width: 224px;
   flex-shrink: 0;
-  background: @sidebar-bg;
+  background:
+    radial-gradient(400px 260px at 50% 115%, rgba(34, 211, 238, 0.1), transparent 70%),
+    radial-gradient(300px 200px at -20% -10%, rgba(52, 211, 153, 0.08), transparent 70%),
+    linear-gradient(180deg, #0E141F 0%, #0B0F18 55%, #0C1220 100%);
   border-right: 1px solid @sidebar-border;
   display: flex;
   flex-direction: column;
@@ -29,14 +32,21 @@
     width: 40px;
     height: 40px;
     border-radius: @radius-md;
-    background: linear-gradient(135deg, @accent, @primary);
-    color: @white;
+    background: @sunset-grad;
+    color: #06120D;
     display: grid;
     place-items: center;
     font-size: 22px;
     font-weight: 700;
-    box-shadow: @shadow-sm;
+    box-shadow: @glow-primary;
     flex-shrink: 0;
+    transition: box-shadow @dur @ease, transform @dur @ease;
+    animation: brand-breathe 4s ease-in-out infinite;
+
+    &:hover {
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 0 32px rgba(34, 211, 238, 0.35);
+    }
   }
   .brand-text {
     display: flex;
@@ -45,6 +55,7 @@
     strong {
       font-size: @fs-lg;
       color: @sidebar-text-strong;
+      letter-spacing: 0.5px;
     }
     small {
       font-size: @fs-xs;
@@ -61,24 +72,63 @@
   -webkit-app-region: no-drag;
 
   .nav-item {
+    position: relative;
     display: flex;
     align-items: center;
     gap: @gap-sm;
-    padding: 9px 12px;
+    padding: 9px 14px;
     border-radius: @radius-md;
     color: @sidebar-text;
     font-size: @fs-md;
     transition: all @dur-fast @ease;
+    overflow: hidden;
+
+    // 悬浮渐变扫光背景
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(52, 211, 153, 0.1), rgba(34, 211, 238, 0.1));
+      opacity: 0;
+      transition: opacity @dur @ease;
+      pointer-events: none;
+    }
+
+    svg {
+      transition: transform @dur @ease;
+    }
 
     &:hover {
-      background: @sidebar-hover-bg;
       color: @sidebar-text-strong;
+      transform: translateX(3px);
+
+      &::after { opacity: 1; }
+      svg { transform: scale(1.15); }
     }
+
+    &:active {
+      transform: translateX(3px) scale(0.98);
+    }
+
     &.active {
       background: @sidebar-active-bg;
       color: @sidebar-active-text;
       font-weight: 600;
-      box-shadow: @shadow-sm;
+      box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.25);
+      transform: none;
+
+      // 左侧渐变指示条
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 20%;
+        bottom: 20%;
+        width: 3px;
+        border-radius: 3px;
+        background: @sunset-grad;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+      }
     }
   }
 }
@@ -94,15 +144,41 @@
   border-radius: @radius-md;
   -webkit-app-region: no-drag;
 
-  &.ok { color: #2E9A5C; }
+  &.ok { color: @primary; }
   &.err { color: @warning; }
 }
 
-/* —— 主内容 —— */
+/* —— 主内容（独立渐变背景：右上青光 + 左下绿光 + 斜向深色渐变） —— */
 .content {
   flex: 1;
   overflow-y: auto;
   padding: @gap-xl;
+  background:
+    radial-gradient(900px 480px at 88% -8%, rgba(34, 211, 238, 0.14), transparent 58%),
+    radial-gradient(800px 460px at -8% 108%, rgba(52, 211, 153, 0.12), transparent 58%),
+    linear-gradient(150deg, #0E1626 0%, #0C121D 45%, #0A0F16 100%);
+  background-attachment: local;
+
+  // 模块切换入场微动效
+  > div {
+    animation: module-in 0.32s @ease;
+  }
+}
+
+@keyframes module-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes brand-breathe {
+  0%, 100% { box-shadow: 0 0 18px rgba(52, 211, 153, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.35); }
 }
 
 .topbar {
@@ -118,13 +194,14 @@
 .slogan-banner {
   text-align: center;
   margin-bottom: @gap-lg;
-  background: linear-gradient(135deg, @white, @surface);
-  border: 1px solid @border;
-
+  .glass-card;
   h1 {
     font-size: @fs-xxl;
     font-weight: 700;
-    color: @text;
+    background: @sunset-grad;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
   }
   p {
@@ -147,9 +224,7 @@
 
 /* 全局卡片基础样式 */
 .card {
-  background: @white;
-  border: 1px solid @border;
-  border-radius: @radius-lg;
+  .glass-card;
   padding: @gap-md;
   box-shadow: @shadow-sm;
 }

@@ -1,5 +1,11 @@
 @import '../../../theme/variables.less';
 
+@keyframes mood-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
 .journal-editor {
   .editor-header {
     display: flex;
@@ -21,46 +27,64 @@
     display: flex;
     align-items: center;
     gap: @gap-md;
-    margin-bottom: @gap-lg;
+    margin-bottom: @gap-md;
+
+    &.mood-error .mood-label .required {
+      animation: mood-shake 0.4s @ease;
+    }
 
     .mood-label {
       font-size: @fs-sm;
       color: @muted;
       flex-shrink: 0;
+
+      .required {
+        color: @warning;
+        font-style: normal;
+        margin-left: 2px;
+      }
     }
 
     .mood-options {
       display: flex;
       gap: @gap-sm;
+      flex-wrap: wrap;
     }
 
     .mood-chip {
-      width: 38px;
       height: 38px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      background: @bg;
-      display: grid;
-      place-items: center;
+      min-width: 38px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 2px solid @border;
+      background: @field-bg;
+      color: @muted;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       transition: all @dur-fast @ease;
 
-      .mood-emoji {
-        font-size: 20px;
-        filter: grayscale(0.4);
-        transition: filter @dur-fast @ease;
+      .mood-name {
+        font-size: @fs-xs;
+        font-weight: 600;
       }
 
       &:hover {
-        transform: scale(1.1);
+        transform: scale(1.08);
+        border-color: rgba(148, 163, 184, 0.35);
       }
       &.selected {
-        border-color: @accent;
-        background: @surface;
-        .mood-emoji {
-          filter: grayscale(0);
-        }
+        background: @field-bg-hover;
+        box-shadow: 0 0 12px rgba(52, 211, 153, 0.18);
       }
     }
+  }
+
+  .mood-error-tip {
+    color: @warning;
+    font-size: @fs-xs;
+    margin-bottom: @gap-md;
   }
 
   .sentences {
@@ -97,7 +121,7 @@
       padding: 10px 14px;
       border: 1.5px solid @border;
       border-radius: @radius-md;
-      background: @bg;
+      background: @field-bg;
       font-size: @fs-sm;
       color: @text;
       outline: none;
@@ -107,7 +131,7 @@
 
       &:focus {
         border-color: @accent;
-        background: @white;
+        background: @field-bg-hover;
       }
     }
   }

@@ -39,7 +39,7 @@ export interface Checkin extends BaseEntity {
   attachment_name: string | null; // 原始文件名
 }
 
-/** 三只青蛙（每日待办） */
+/** 今日要事（每日待办） */
 export interface Frog extends BaseEntity {
   day_key: string;
   title: string;
@@ -99,6 +99,16 @@ export interface Achievement extends BaseEntity {
 export interface Setting {
   key: string;
   value: string;
+}
+
+/** AI 资讯条目（RSS 聚合抓取） */
+export interface NewsItem extends BaseEntity {
+  title: string;
+  link: string; // 原文链接（唯一去重键）
+  source: string; // 来源名，如 "机器之心"
+  summary: string | null;
+  published_at: string; // ISO 时间
+  fetched_at: string; // ISO 时间
 }
 
 /* ---------------- 统计聚合类型 ---------------- */

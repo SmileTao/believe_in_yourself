@@ -39,7 +39,7 @@ export default function Dashboard() {
           </p>
         </section>
 
-        {/* 右：三只青蛙 */}
+        {/* 右：今日三件要事 */}
         <FrogBoard
           frogs={frogs}
           loading={frogsLoading}

@@ -23,7 +23,7 @@
 
     .progress-track {
       height: 10px;
-      background: @surface;
+      background: @field-bg-hover;
       border-radius: 999px;
       overflow: hidden;
 
@@ -92,7 +92,7 @@
   padding: 10px 14px;
   border-radius: @radius-md;
   border: 1.5px solid transparent;
-  background: @white;
+  background: @field-bg-hover;
   box-shadow: @shadow-sm;
   min-width: 90px;
   transition: all @dur-fast @ease;
@@ -104,7 +104,7 @@
 
   &.locked {
     opacity: 0.5;
-    background: @bg;
+    background: @field-bg;
     cursor: not-allowed;
     color: @muted;
   }
@@ -116,13 +116,13 @@
 
   &.doing {
     border-color: @warning;
-    background: #FEFCE8;
+    background: rgba(251, 191, 36, 0.15);
     color: #CA8A04;
   }
 
   &.done {
     border-color: @success;
-    background: #F0FDF4;
+    background: rgba(52, 211, 153, 0.12);
     color: @success;
   }
 
@@ -153,20 +153,15 @@
 
 /* 节点详情弹窗 */
 .node-detail-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(31, 58, 40, 0.25);
-  display: grid;
-  place-items: center;
-  animation: fade-in 0.2s @ease;
+  .dialog-overlay;
 }
 
 .node-detail {
+  .dialog-panel;
   width: min(440px, 90vw);
   padding: @gap-xl;
   position: relative;
-  animation: pop-in 0.25s @ease;
+  animation: dialog-pop 0.25s @ease;
 
   .close-btn {
     position: absolute;
@@ -179,7 +174,7 @@
     display: grid;
     place-items: center;
     &:hover {
-      background: @surface;
+      background: @field-bg-hover;
     }
   }
 
@@ -207,8 +202,8 @@
       font-weight: 600;
 
       &.done { background: @success-soft; color: @success; }
-      &.doing { background: #FEFCE8; color: #CA8A04; }
-      &.available { background: #DCFCE7; color: @accent; }
+      &.doing { background: rgba(251, 191, 36, 0.15); color: #CA8A04; }
+      &.available { background: @primary-soft; color: @accent; }
     }
   }
 
@@ -234,7 +229,7 @@
     .meta-chip {
       padding: 3px 10px;
       border-radius: @radius-sm;
-      background: @surface;
+      background: @field-bg-hover;
       font-size: @fs-xs;
       color: @text;
     }
@@ -259,11 +254,11 @@
       gap: 4px;
       padding: 10px 16px;
       border-radius: @radius-md;
-      background: @surface;
+      background: @field-bg-hover;
       color: @muted;
       font-size: @fs-sm;
       transition: all @dur-fast @ease;
-      &:hover { color: @warning; background: #FEFCE8; }
+      &:hover { color: @warning; background: rgba(251, 191, 36, 0.15); }
     }
 
     .action-btn {
@@ -308,7 +303,7 @@
     padding: @gap-md;
     border: 1.5px solid @border;
     border-radius: @radius-md;
-    background: @bg;
+    background: @field-bg;
     font-size: @fs-sm;
     color: @text;
     outline: none;
@@ -318,7 +313,7 @@
 
     &:focus {
       border-color: @accent;
-      background: @white;
+      background: @field-bg-hover;
     }
   }
 
@@ -339,7 +334,7 @@
       .reflect-cancel-btn {
         padding: 8px 16px;
         border-radius: @radius-md;
-        background: @surface;
+        background: @field-bg-hover;
         color: @muted;
         font-size: @fs-sm;
         transition: all @dur-fast @ease;

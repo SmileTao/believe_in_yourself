@@ -19,7 +19,7 @@
       gap: 5px;
       padding: 8px 16px;
       border-radius: @radius-md;
-      background: @white;
+      background: @field-bg-hover;
       border: 1.5px solid @border;
       font-size: @fs-sm;
       color: @text;
@@ -82,7 +82,7 @@
       place-items: center;
       transition: all @dur-fast @ease;
       &:hover {
-        background: @surface;
+        background: @field-bg-hover;
         color: @text;
       }
     }
@@ -112,7 +112,8 @@
     .cal-cell {
       aspect-ratio: 1;
       border-radius: @radius-sm;
-      background: @bg;
+      background: rgba(148, 163, 184, 0.07);
+      border: 1px solid transparent;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -127,24 +128,26 @@
       }
 
       &.future {
-        opacity: 0.3;
+        opacity: 0.35;
         cursor: not-allowed;
       }
 
       &:not(.empty):not(.future):hover {
         background: @primary-soft;
+        border-color: rgba(52, 211, 153, 0.3);
         transform: scale(1.05);
       }
 
       &.done {
-        background: @success;
+        background: rgba(52, 211, 153, 0.16);
+        border-color: rgba(52, 211, 153, 0.35);
 
         &:hover {
-          background: darken(@success, 6%);
+          background: rgba(52, 211, 153, 0.24);
         }
 
         .cell-num {
-          color: @white;
+          color: @primary;
           font-weight: 700;
         }
         .cell-check {
@@ -154,18 +157,20 @@
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: @white;
+          background: @primary;
+          box-shadow: 0 0 4px rgba(52, 211, 153, 0.6);
         }
         .cell-val {
           font-size: 9px;
-          color: @white;
+          color: @primary;
           font-weight: 600;
           margin-top: 1px;
         }
       }
 
       &.today {
-        box-shadow: 0 0 0 2px @accent;
+        border-color: rgba(34, 211, 238, 0.55);
+        box-shadow: 0 0 8px rgba(34, 211, 238, 0.25);
       }
 
       .cell-num {
@@ -216,7 +221,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: @white;
+    background: @field-bg-hover;
     color: @text;
     display: grid;
     place-items: center;

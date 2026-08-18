@@ -79,7 +79,7 @@
         .meta-tag {
           padding: 1px 8px;
           border-radius: @radius-sm;
-          background: @surface;
+          background: @field-bg-hover;
           font-size: @fs-xs;
           color: @muted;
         }
@@ -113,28 +113,23 @@
       color: @muted;
       transition: all @dur-fast @ease;
 
-      &.edit:hover { color: @accent; background: #DCFCE7; }
-      &.del:hover { color: #EF4444; background: #DCFCE7; }
+      &.edit:hover { color: @accent; background: @primary-soft; }
+      &.del:hover { color: #EF4444; background: @primary-soft; }
     }
   }
 }
 
 /* 表单弹窗 */
 .plan-form-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(31, 58, 40, 0.25);
-  display: grid;
-  place-items: center;
-  animation: fade-in 0.2s @ease;
+  .dialog-overlay;
 }
 
 .plan-form {
+  .dialog-panel;
   width: min(480px, 90vw);
   max-height: 85vh;
   overflow-y: auto;
-  animation: pop-in 0.25s @ease;
+  animation: dialog-pop 0.25s @ease;
 
   .form-header {
     display: flex;
@@ -154,7 +149,7 @@
       color: @muted;
       display: grid;
       place-items: center;
-      &:hover { background: @surface; }
+      &:hover { background: @field-bg-hover; }
     }
   }
 
@@ -180,14 +175,14 @@
       padding: 9px 12px;
       border: 1.5px solid @border;
       border-radius: @radius-md;
-      background: @bg;
+      background: @field-bg;
       font-size: @fs-sm;
       outline: none;
       transition: border-color @dur-fast @ease;
 
       &:focus {
         border-color: @accent;
-        background: @white;
+        background: @field-bg-hover;
       }
     }
 
@@ -206,19 +201,19 @@
       height: 38px;
       border-radius: @radius-sm;
       border: 2px solid transparent;
-      background: @bg;
+      background: @field-bg;
       color: @muted;
       display: grid;
       place-items: center;
       transition: all @dur-fast @ease;
 
       &:hover {
-        background: @surface;
+        background: @field-bg-hover;
         color: @text;
       }
       &.selected {
         border-color: @accent;
-        background: #DCFCE7;
+        background: @primary-soft;
         color: @accent;
       }
     }
@@ -227,7 +222,7 @@
   .type-tabs {
     display: flex;
     gap: @gap-xs;
-    background: @surface;
+    background: @field-bg-hover;
     padding: 4px;
     border-radius: @radius-md;
 
@@ -240,7 +235,7 @@
       transition: all @dur-fast @ease;
 
       &.active {
-        background: @white;
+        background: @field-bg-hover;
         color: @text;
         font-weight: 600;
         box-shadow: @shadow-sm;
@@ -277,7 +272,7 @@
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background: @white;
+        background: @field-bg-hover;
         box-shadow: @shadow-sm;
         transition: transform @dur-fast @ease;
       }
@@ -300,7 +295,7 @@
     .cancel-btn {
       padding: 8px 18px;
       border-radius: @radius-md;
-      background: @surface;
+      background: @field-bg-hover;
       color: @muted;
       font-size: @fs-sm;
     }

@@ -11,9 +11,11 @@ interface FrogBoardProps {
   onRemove: (id: string) => void;
 }
 
-/** 三只青蛙：每天最重要的 3 件事 */
+/** 今日要事：每天最重要的 3 件事 */
 export default function FrogBoard({ frogs, loading, onAdd, onToggle, onRemove }: FrogBoardProps) {
   const [input, setInput] = useState('');
+  // 中文输入法组合中:此时回车是"确认候选词",不应提交
+  const [composing, setComposing] = useState(false);
 
   const handleAdd = () => {
     const title = input.trim();
@@ -23,7 +25,7 @@ export default function FrogBoard({ frogs, loading, onAdd, onToggle, onRemove }:
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleAdd();
+    if (e.key === 'Enter' && !composing && !e.nativeEvent.isComposing) handleAdd();
   };
 
   const doneCount = frogs.filter((f) => f.done === 1).length;
@@ -31,12 +33,12 @@ export default function FrogBoard({ frogs, loading, onAdd, onToggle, onRemove }:
   return (
     <div className="frog-board card">
       <div className="board-header">
-        <h3>今日三只青蛙</h3>
+        <h3>今日三件要事</h3>
         <span className="counter">
           {doneCount}/{frogs.length}
         </span>
       </div>
-      <p className="muted hint">挑出今天最想吞掉的 3 只"青蛙"，先难后易。</p>
+      <p className="muted hint">写下今天最重要的三件事，先难后易，逐个击破。</p>
 
       <div className="frog-input">
         <input
@@ -46,6 +48,8 @@ export default function FrogBoard({ frogs, loading, onAdd, onToggle, onRemove }:
           maxLength={60}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={() => setComposing(true)}
+          onCompositionEnd={() => setComposing(false)}
         />
         <button className="add-btn" onClick={handleAdd} disabled={!input.trim()}>
           <Plus size={16} />
@@ -55,7 +59,7 @@ export default function FrogBoard({ frogs, loading, onAdd, onToggle, onRemove }:
       <ul className="frog-list">
         {loading && <li className="empty muted">加载中…</li>}
         {!loading && frogs.length === 0 && (
-          <li className="empty muted">还没有青蛙，添加第一件要事吧 🐸</li>
+          <li className="empty muted">还没有要事，添加第一件吧 ✨</li>
         )}
         {frogs.map((f) => (
           <li key={f.id} className={`frog-item ${f.done === 1 ? 'done' : ''}`}>

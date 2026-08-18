@@ -1,74 +1,234 @@
 @import '../../../theme/variables.less';
 
 .journal-history {
-  h3 {
-    font-size: @fs-lg;
-    color: @text;
-    margin-bottom: @gap-md;
-  }
-
-  .empty {
-    text-align: center;
-    padding: @gap-lg;
-    font-size: @fs-sm;
-  }
-
-  .history-list {
-    list-style: none;
+  .jh-header {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: @gap-sm;
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 4px;
+    margin-bottom: @gap-md;
+    color: @primary;
+
+    h3 {
+      font-size: @fs-lg;
+      color: @text;
+    }
+    .jh-sub {
+      font-size: @fs-xs;
+      margin-left: auto;
+    }
   }
 
-  .history-item {
-    padding: @gap-sm @gap-md;
-    border-radius: @radius-md;
-    background: @bg;
-    border-left: 3px solid @accent;
-    transition: all @dur-fast @ease;
+  .jh-calendar-wrap {
+    position: relative;
+  }
 
-    &:hover {
-      background: @surface;
-      transform: translateX(2px);
+  .jh-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    max-width: 560px;
+    margin: 0 auto;
+
+    .jh-weekday {
+      text-align: center;
+      font-size: @fs-xs;
+      color: @muted;
+      padding: 4px 0;
+      font-weight: 600;
     }
 
-    .item-date {
+    .jh-cell {
+      aspect-ratio: 1;
+      border-radius: @radius-md;
+      background: @field-bg;
+      border: 1px solid @border;
+      display: grid;
+      place-items: center;
+      position: relative;
+      transition: all @dur-fast @ease;
+
+      &.empty {
+        background: transparent;
+        border-color: transparent;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      &.has-entry:not(:disabled) {
+        cursor: pointer;
+      }
+
+      // 有日记但无心情 → 默认柔和底
+      &.has-entry:disabled,
+      &.has-entry {
+        background: rgba(148, 163, 184, 0.12);
+      }
+
+      // 日期缩在左上角,弱化
+      .cell-day {
+        position: absolute;
+        top: 4px;
+        left: 6px;
+        font-size: 10px;
+        color: @muted;
+        font-variant-numeric: tabular-nums;
+      }
+
+      // 心情图标为主体
+      .cell-mood {
+        transition: transform @dur-fast @ease;
+      }
+
+      &.has-entry:not(:disabled):hover .cell-mood {
+        transform: scale(1.2);
+      }
+
+      &.has-entry:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      }
+
+      &.today {
+        border-color: rgba(34, 211, 238, 0.6);
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.25);
+        .cell-day { color: @accent; }
+      }
+
+      &.selected {
+        border-width: 2px;
+        box-shadow: 0 0 14px rgba(52, 211, 153, 0.3);
+      }
+    }
+  }
+
+  /* —— 每格相对定位容器（保持撑满列宽,修复格子塌缩） —— */
+  .jh-cell-wrap {
+    position: relative;
+    display: grid;
+
+    .jh-cell {
+      width: 100%;
+    }
+  }
+
+  /* —— 对话气泡：锚定在日期格子上方 —— */
+  .jh-bubble {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    min-width: 260px;
+    max-width: 320px;
+    z-index: 10;
+    pointer-events: auto;
+
+    // 首列格子：气泡左对齐,避免溢出
+    .col-0 & {
+      left: 0;
+      transform: none;
+    }
+    // 末列格子：气泡右对齐
+    .col-6 & {
+      left: auto;
+      right: 0;
+      transform: none;
+    }
+
+    .bubble-card {
+      position: relative;
+      padding: @gap-md @gap-lg;
+      border-radius: @radius-lg;
+      background: linear-gradient(160deg, #18222F 0%, #121A26 100%);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      box-shadow:
+        0 16px 44px rgba(0, 0, 0, 0.55),
+        0 0 20px rgba(52, 211, 153, 0.12);
+      animation: bubble-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); // 弹性放大微动效
+    }
+
+    .bubble-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      color: @muted;
+      display: grid;
+      place-items: center;
+      &:hover {
+        color: @text;
+        background: rgba(148, 163, 184, 0.15);
+      }
+    }
+
+    .bubble-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
+      gap: @gap-sm;
+      color: @primary;
+      margin-bottom: @gap-sm;
+      padding-right: 24px;
 
-      .date {
-        font-size: @fs-xs;
+      .bubble-date {
+        font-size: @fs-sm;
         font-weight: 600;
         color: @text;
       }
-      .mood {
-        font-size: 16px;
+      .bubble-mood {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: @fs-xs;
+        font-weight: 600;
       }
     }
 
-    .item-content {
+    .bubble-body {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 6px;
 
       .line {
         font-size: @fs-sm;
         line-height: 1.6;
       }
-      .s1 {
-        color: @text;
-      }
-      .s2 {
-        color: @muted;
-      }
-      .s3 {
-        color: @accent;
-      }
+      .s1 { color: @text; }
+      .s2 { color: @muted; }
+      .s3 { color: @accent; }
     }
+
+    // 气泡尾巴：在气泡底部,朝下指向该日期格子
+    .bubble-tail {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: #121A26; // 与卡片底部渐变色一致
+      border-right: 1px solid rgba(52, 211, 153, 0.3);
+      border-bottom: 1px solid rgba(52, 211, 153, 0.3);
+      transform: translateX(-50%) rotate(45deg);
+      margin-top: -6px;
+    }
+
+    // 首列/末列：尾巴跟随气泡对齐方式偏移
+    .col-0 & .bubble-tail { left: 18%; }
+    .col-6 & .bubble-tail { left: 82%; }
+  }
+}
+
+@keyframes bubble-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

@@ -36,7 +36,7 @@
       padding: 8px 12px;
       border: 1.5px solid @border;
       border-radius: @radius-md;
-      background: @bg;
+      background: @field-bg;
       font-size: @fs-sm;
       outline: none;
       transition: border-color @dur-fast @ease;
@@ -85,12 +85,14 @@
     align-items: center;
     gap: @gap-sm;
     padding: 10px 12px;
-    background: @bg;
+    background: @field-bg;
+    border: 1px solid transparent;
     border-radius: @radius-md;
     transition: all @dur-fast @ease;
 
     &:hover {
-      background: @surface;
+      background: @field-bg-hover;
+      border-color: rgba(52, 211, 153, 0.25);
       .del-btn {
         opacity: 1;
       }

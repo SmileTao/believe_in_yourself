@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import {
   LayoutDashboard,
   Target,
-  Flame,
   Timer,
   BarChart3,
   BookOpen,
   Award,
   Settings as SettingsIcon,
   Network,
+  Newspaper,
+  CalendarDays,
   Sparkles
 } from 'lucide-react';
 import { useAppStore } from './store';
@@ -22,16 +23,18 @@ import Achievements from './modules/achievements/Achievements';
 import Plans from './modules/plans/Plans';
 import Habits from './modules/habits/Habits';
 import Settings from './modules/settings/Settings';
+import News from './modules/news/News';
 import './App.less';
 
 const NAV = [
-  { key: 'dashboard', label: '今日', icon: LayoutDashboard },
-  { key: 'plans', label: '计划', icon: Target },
-  { key: 'habits', label: '打卡', icon: Flame },
-  { key: 'timer', label: '番茄钟', icon: Timer },
-  { key: 'stats', label: '统计', icon: BarChart3 },
-  { key: 'skills', label: '技能树', icon: Network },
+  { key: 'news', label: '资讯', icon: Newspaper },
+  { key: 'dashboard', label: '打卡', icon: LayoutDashboard },
   { key: 'journal', label: '复盘', icon: BookOpen },
+  { key: 'plans', label: '计划', icon: Target },
+  { key: 'timer', label: '番茄钟', icon: Timer },
+  { key: 'skills', label: '技能树', icon: Network },
+  { key: 'habits', label: '日历', icon: CalendarDays },
+  { key: 'stats', label: '统计', icon: BarChart3 },
   { key: 'achievements', label: '成就', icon: Award },
   { key: 'settings', label: '设置', icon: SettingsIcon }
 ];
@@ -78,6 +81,8 @@ export default function App() {
     switch (activeModule) {
       case 'dashboard':
         return <Dashboard />;
+      case 'news':
+        return <News />;
       case 'plans':
         return <Plans />;
       case 'habits':

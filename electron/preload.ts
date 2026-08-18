@@ -67,6 +67,13 @@ const api: ShibieApi = {
   achievement: {
     list: () => ipcRenderer.invoke('achievement:list'),
     unlock: (code) => ipcRenderer.invoke('achievement:unlock', code)
+  },
+
+  news: {
+    refresh: () => ipcRenderer.invoke('news:refresh'),
+    list: (limit) => ipcRenderer.invoke('news:list', limit),
+    todayHeadlines: (limit) => ipcRenderer.invoke('news:todayHeadlines', limit),
+    openLink: (url) => ipcRenderer.invoke('news:openLink', url)
   }
 };
 

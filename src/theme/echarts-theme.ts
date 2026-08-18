@@ -2,14 +2,14 @@ import type { EChartsOption } from 'echarts';
 import { variables } from './theme-tokens';
 
 /**
- * 清新绿 ECharts 主题（仅浅色）。
+ * 深色科技风 ECharts 主题。
  * 通过 echarts.registerTheme('shibie', theme) 注册后，
  * 在 init(dom, 'shibie') 时使用。
  */
 const { primary, accent, success, warning, text, muted, border, bg, surface } = variables;
 
 export const SHIBIE_ECHARTS_THEME = {
-  color: [accent, primary, success, warning, '#86EFAC', '#16A34A'],
+  color: [primary, accent, warning, '#A78BFA', success, '#F472B6'],
   backgroundColor: 'transparent',
   textStyle: { color: text, fontFamily: 'inherit' },
   title: {
@@ -18,15 +18,15 @@ export const SHIBIE_ECHARTS_THEME = {
   },
   legend: { textStyle: { color: muted } },
   tooltip: {
-    backgroundColor: surface,
-    borderColor: border,
+    backgroundColor: '#0F1622',
+    borderColor: 'rgba(148, 163, 184, 0.2)',
     borderWidth: 1,
     textStyle: { color: text },
-    extraCssText: 'box-shadow: 0 4px 14px rgba(34,197,94,0.12); border-radius:12px;'
+    extraCssText: 'box-shadow: 0 4px 14px rgba(0,0,0,0.4); border-radius:12px;'
   },
   grid: { left: 40, right: 20, top: 30, bottom: 36, containLabel: true },
   categoryAxis: {
-    axisLine: { lineStyle: { color: border } },
+    axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.25)' } },
     axisTick: { show: false },
     axisLabel: { color: muted },
     splitLine: { lineStyle: { color: border, type: 'dashed' as const } }
@@ -50,7 +50,7 @@ export const SHIBIE_ECHARTS_THEME = {
   }
 } as unknown as EChartsOption;
 
-// 主题色阶（热力图渐变：从浅到深清新绿）
+// 主题色阶（热力图渐变：从深底到霓虹绿）
 export const HEATMAP_VISUAL_MAP = {
   min: 0,
   max: 4,
@@ -59,7 +59,7 @@ export const HEATMAP_VISUAL_MAP = {
   left: 'center',
   bottom: 0,
   itemHeight: 12,
-  inRange: { color: ['#ECFDF5', '#BBF7D0', '#4ADE80', '#22C55E'] },
+  inRange: { color: ['#10161F', '#134E39', '#0E7490', '#34D399', '#22D3EE'] },
   textStyle: { color: muted }
 };
 

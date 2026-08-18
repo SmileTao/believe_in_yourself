@@ -11,14 +11,9 @@
   }
 
   .journal-layout {
-    display: grid;
-    grid-template-columns: 1fr 380px;
+    display: flex;
+    flex-direction: column;
     gap: @gap-lg;
-    align-items: start;
-
-    @media (max-width: 1000px) {
-      grid-template-columns: 1fr;
-    }
   }
 
   .journal-main {
@@ -61,7 +56,7 @@
       color: @text;
       line-height: 1.8;
       white-space: pre-wrap;
-      background: @bg;
+      background: @field-bg;
       padding: @gap-sm @gap-md;
       border-radius: @radius-md;
       margin: 0;

@@ -57,7 +57,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_checkins_plan_day ON checkins(plan_id, day_
 CREATE INDEX IF NOT EXISTS idx_checkins_day ON checkins(day_key);
 ${COMMON_TRIGGER('checkins')}
 
--- 三只青蛙
+-- 今日要事
 CREATE TABLE IF NOT EXISTS frogs (
   id TEXT PRIMARY KEY,
   day_key TEXT NOT NULL,
@@ -164,6 +164,25 @@ ALTER TABLE plans ADD COLUMN require_evidence INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE checkins ADD COLUMN attachment_path TEXT;
 ALTER TABLE checkins ADD COLUMN attachment_type TEXT;
 ALTER TABLE checkins ADD COLUMN attachment_name TEXT;
+    `
+  },
+  {
+    version: 3,
+    description: 'add news_items table for AI news feed',
+    sql: `
+CREATE TABLE IF NOT EXISTS news_items (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  link TEXT NOT NULL UNIQUE,
+  source TEXT NOT NULL,
+  summary TEXT,
+  published_at TEXT NOT NULL,
+  fetched_at TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  deleted_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_news_published ON news_items(published_at DESC);
     `
   }
 ];

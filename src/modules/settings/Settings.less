@@ -2,6 +2,7 @@
 
 .settings-page {
   max-width: 640px;
+  margin: 0 auto; // 自适应屏幕宽度并居中
 
   .page-title {
     font-size: @fs-xl;
@@ -73,7 +74,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: @white;
+    background: @field-bg-hover;
     box-shadow: @shadow-sm;
     transition: transform @dur-fast @ease;
   }
@@ -93,7 +94,7 @@
     width: 30px;
     height: 30px;
     border-radius: @radius-sm;
-    background: @surface;
+    background: @field-bg-hover;
     color: @text;
     font-size: @fs-md;
     font-weight: 700;
@@ -142,7 +143,7 @@
       &:hover { opacity: 0.9; }
     }
     &.import {
-      background: @surface;
+      background: @field-bg-hover;
       color: @text;
       border: 1.5px solid @border;
       &:hover { border-color: @accent; color: @accent; }

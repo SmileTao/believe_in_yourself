@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Frog } from '@shared/contracts';
 import { todayKey } from '@shared/utils/date';
 
-/** 当日三只青蛙 */
+/** 当日三件要事 */
 export function useFrogs() {
   const [frogs, setFrogs] = useState<Frog[]>([]);
   const [loading, setLoading] = useState(true);

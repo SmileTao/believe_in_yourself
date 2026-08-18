@@ -15,7 +15,7 @@ export default function Journal() {
       <p className="page-subtitle muted">每天三句话，温柔地看见自己的成长。</p>
 
       <div className="journal-layout">
-        {/* 左：编辑器 + 周汇总 */}
+        {/* 编辑器 + 周汇总 */}
         <div className="journal-main">
           <JournalEditor entry={today} saving={saving} onSave={save} />
 
@@ -38,10 +38,12 @@ export default function Journal() {
           </div>
         </div>
 
-        {/* 右：历史日记 */}
-        <div className="journal-side">
-          {loading ? <p className="muted">加载中…</p> : <JournalHistory entries={recent} />}
-        </div>
+        {/* 底部：日记日历 */}
+        {loading ? (
+          <p className="muted">加载中…</p>
+        ) : (
+          <JournalHistory entries={recent} />
+        )}
       </div>
     </div>
   );

@@ -40,7 +40,7 @@
     transition: all @dur-fast @ease;
 
     &.unlocked {
-      background: linear-gradient(135deg, @white, #FBF6F0);
+      background: @sunset-grad-soft;
       border-color: @primary;
 
       &:hover {
@@ -50,7 +50,7 @@
     }
 
     &.locked {
-      background: @bg;
+      background: @field-bg;
       opacity: 0.65;
     }
 
@@ -72,7 +72,7 @@
       background: @primary-soft;
     }
     &.locked .badge-icon {
-      background: @surface;
+      background: @field-bg-hover;
       color: @muted;
     }
 
@@ -133,7 +133,7 @@
     cursor: pointer;
     padding: @gap-md;
     border-radius: @radius-md;
-    background: linear-gradient(135deg, #FBF6F0, @surface);
+    background: @sunset-grad-soft;
     border: 1.5px dashed @border;
     transition: all @dur-fast @ease;
 
@@ -178,7 +178,7 @@
       padding: @gap-md;
       border: 1.5px solid @accent;
       border-radius: @radius-md;
-      background: @white;
+      background: @field-bg-hover;
       font-size: @fs-md;
       color: @text;
       line-height: 1.7;
@@ -204,7 +204,7 @@
           color: @white;
         }
         &.cancel {
-          background: @surface;
+          background: @field-bg-hover;
           color: @muted;
         }
       }

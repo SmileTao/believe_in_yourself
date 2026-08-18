@@ -3,6 +3,7 @@ import { join, extname } from 'node:path';
 import { copyFileSync, readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
 import { getDb, closeDb, collectDbInfo, getDbPath } from './db/connection';
 import { repos, seedAll } from './db/repositories';
+import { refreshNews, listNews, todayHeadlines, scheduleNewsRefresh } from './news/newsService';
 import { APP_NAME_ZH, APP_BUNDLE_ID } from '@shared/constants';
 
 /** 附件存储根目录 */
@@ -51,7 +52,7 @@ function createWindow(): void {
     minWidth: 960,
     minHeight: 640,
     title: APP_NAME_ZH,
-    backgroundColor: '#FBF7F2',
+    backgroundColor: '#0A0E14',
     show: false,
     autoHideMenuBar: true,
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
@@ -140,6 +141,12 @@ function registerIpc(): void {
   // achievement
   ipcMain.handle('achievement:list', () => repos.achievement.list());
   ipcMain.handle('achievement:unlock', (_e, code) => repos.achievement.unlock(code));
+
+  // news（AI 资讯）
+  ipcMain.handle('news:refresh', () => refreshNews());
+  ipcMain.handle('news:list', (_e, limit?: number) => listNews(limit ?? 50));
+  ipcMain.handle('news:todayHeadlines', (_e, limit?: number) => todayHeadlines(limit ?? 5));
+  ipcMain.handle('news:openLink', (_e, url: string) => shell.openExternal(url));
 
   // notification（番茄钟结束提醒）
   ipcMain.handle('notify', (_e, title: string, body: string) => {
@@ -325,6 +332,8 @@ app.whenReady().then(() => {
   // 初始化数据库并自动 seed（幂等）
   const db = getDb();
   seedAll(db);
+  // AI 资讯：启动抓取 + 每 6 小时定时抓取
+  scheduleNewsRefresh();
   createWindow();
 
   app.on('activate', () => {

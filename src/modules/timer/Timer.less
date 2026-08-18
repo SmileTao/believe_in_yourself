@@ -1,11 +1,17 @@
 @import '../../theme/variables.less';
 
 .timer-page {
+  // 垂直居中,不再偏上
+  min-height: calc(100vh - @gap-xl * 2);
+  display: flex;
+  align-items: center;
+
   .timer-layout {
     display: grid;
     grid-template-columns: 1fr 340px;
     gap: @gap-lg;
-    align-items: start;
+    align-items: center;
+    width: 100%;
 
     @media (max-width: 1000px) {
       grid-template-columns: 1fr;
@@ -15,6 +21,10 @@
   .timer-main {
     display: flex;
     justify-content: center;
+    // 主面板辉光 + 渐变点缀
+    background:
+      radial-gradient(420px 300px at 50% 40%, rgba(52, 211, 153, 0.07), transparent 70%),
+      @card-bg-grad;
   }
 
   .timer-side {
@@ -44,7 +54,7 @@
         gap: 5px;
         padding: 7px 14px;
         border-radius: @radius-md;
-        background: @bg;
+        background: @field-bg;
         border: 1.5px solid transparent;
         font-size: @fs-sm;
         color: @text;
@@ -81,10 +91,14 @@
         line-height: 1.6;
 
         &::before {
-          content: '🌱';
+          content: '';
           position: absolute;
-          left: 0;
-          font-size: 11px;
+          left: 2px;
+          top: 9px;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: @sunset-grad;
         }
       }
     }
